@@ -9,6 +9,9 @@ type DeviceMap = {
 
 export const App = () => {
   const [devices, setDevices] = useState<DeviceMap>({});
+  const [targetDeviceName, setTargetDeviceName] = useState<
+    string | undefined
+  >();
   const [pushingKeyNumbers, setPushingKeyNumbers] = useState<number[]>([]);
   const [keyLabelType, setKeyLabelType] = useState<
     "italian" | "american" | undefined
@@ -26,6 +29,17 @@ export const App = () => {
       });
     },
     [setDevices],
+  );
+  const selectDevice = useCallback(
+    (ev: React.ChangeEvent) => {
+      const idx = (ev.currentTarget as HTMLSelectElement).selectedIndex;
+      if (idx === 0) {
+        setTargetDeviceName(undefined);
+        return;
+      }
+      setTargetDeviceName(Object.keys(devices)[idx - 1]);
+    },
+    [devices],
   );
   const midiCallback = useCallback(
     (ev: MIDIMessageEvent) => {
@@ -93,17 +107,22 @@ export const App = () => {
   }, [addDevice]);
 
   useEffect(() => {
-    // デバイスが更新されたらcallbackを登録
-    Object.values(devices).map((device) => {
-      device.addEventListener("midimessage", midiCallback, false);
-    });
+    // ターゲットのデバイスが更新されたらcallbackを登録
+    if (targetDeviceName === undefined) return;
+    devices[targetDeviceName].addEventListener(
+      "midimessage",
+      midiCallback,
+      false,
+    );
     // callbackが重複しないよう、useEffectが更新される際にEventListenerを削除する
     return () => {
-      Object.values(devices).map((device) => {
-        device.removeEventListener("midimessage", midiCallback, false);
-      });
+      devices[targetDeviceName].removeEventListener(
+        "midimessage",
+        midiCallback,
+        false,
+      );
     };
-  }, [devices, midiCallback]);
+  }, [devices, midiCallback, targetDeviceName]);
 
   return (
     <>
@@ -111,11 +130,20 @@ export const App = () => {
       <div style={{ textAlign: "center", marginBottom: 12 }}>
         <div style={{ fontWeight: "bold" }}>オプション</div>
         <div>
+          <label>MIDIデバイス：</label>
+          <select onChange={selectDevice}>
+            <option>なし</option>
+            {Object.keys(devices).map((deviceName) => (
+              <option key={deviceName}>{deviceName}</option>
+            ))}
+          </select>
+        </div>
+        <div>
           <label>音階名表示：</label>
           <select onChange={changeLabelType}>
-            <option value={undefined}>ラベルなし</option>
-            <option value="italian">イタリア式 - ドレミ</option>
-            <option value="american">アメリカ式 - CDE</option>
+            <option>ラベルなし</option>
+            <option>イタリア式 - ドレミ</option>
+            <option>アメリカ式 - CDE</option>
           </select>
         </div>
         <div>
