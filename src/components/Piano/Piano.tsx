@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { americanKeyLabel, italianKeyLabel } from "../../definitions/keyLabel";
+import { keyLabel } from "../../definitions/keyLabel";
 import {
   DoBlackKey,
   FaBlackKey,
@@ -24,11 +24,7 @@ export const Piano: React.FC<PianoProps> = ({
   pushingKeyNumbers,
 }) => {
   const label = useMemo(() => {
-    return labelType === "italian"
-      ? italianKeyLabel
-      : labelType === "american"
-        ? americanKeyLabel
-        : [];
+    return labelType ? keyLabel[labelType] : [];
   }, [labelType]);
   const fixedPushingKeyNumbers = useMemo(() => {
     return isSingleOctave

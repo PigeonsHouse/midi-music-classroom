@@ -1,77 +1,24 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Piano } from "../components/Piano";
-import { initMidiDevice } from "./midi";
-import { beepNote, setBeepVolume } from "./sounds";
+import { useKeyboard } from "./keyboard";
+import { useMidiKeyboard } from "./midi";
+import { beepNote, useSound } from "./sounds";
 import { Title } from "./styled";
 
-type DeviceMap = {
-  [key: string]: MIDIInput;
-};
-
 export const App = () => {
-  const [devices, setDevices] = useState<DeviceMap>({});
-  const [targetDeviceName, setTargetDeviceName] = useState<
-    string | undefined
-  >();
+  // 押しているキーを中央管理する箇所
   const [pushingKeyNumbers, setPushingKeyNumbers] = useState<number[]>([]);
-  const [keyLabelType, setKeyLabelType] = useState<
-    "italian" | "american" | undefined
-  >();
-  const [isSingleOctave, setIsSingleOctave] = useState(false);
-  const [volume, setVolume] = useState(0.5);
-
-  const addDevice = useCallback(
-    (newDevice: MIDIInput) => {
-      setDevices((devices) => {
-        if (newDevice.name) {
-          devices[newDevice.name] = newDevice;
-          return { ...devices };
-        }
-        return devices;
-      });
-    },
-    [setDevices],
-  );
-  const selectDevice = useCallback(
-    (ev: React.ChangeEvent) => {
-      const idx = (ev.currentTarget as HTMLSelectElement).selectedIndex;
-      if (idx === 0) {
-        setTargetDeviceName(undefined);
-        return;
-      }
-      setTargetDeviceName(Object.keys(devices)[idx - 1]);
-    },
-    [devices],
-  );
-  const midiCallback = useCallback(
-    (ev: MIDIMessageEvent) => {
-      if (ev.data === null) {
-        return;
-      }
-      // PITCHベンド
-      if (ev.data[0] / 16 === 14) {
-        console.log("pitch");
-        return;
-      }
-      // MODULATION
-      if (ev.data[0] / 16 === 11) {
-        console.log("mod");
-        return;
-      }
-
-      // 60がC4。12ずつで1オクターブ上下する。
-      const noteNumber = ev.data[1];
-
-      const isOn = ev.data[0] / 16 === 9;
+  const updatePushingKeyNumbers = useCallback(
+    (newNoteNumber: number, isOn: boolean) => {
       if (isOn) {
-        if (pushingKeyNumbers.includes(noteNumber)) return;
+        if (pushingKeyNumbers.includes(newNoteNumber)) return;
         setPushingKeyNumbers((pushedKeyNumbers) => {
-          pushedKeyNumbers.push(noteNumber);
+          pushedKeyNumbers.push(newNoteNumber);
           return [...pushedKeyNumbers];
         });
-        beepNote(noteNumber);
+        beepNote(newNoteNumber);
       } else {
-        const index = pushingKeyNumbers.indexOf(noteNumber);
+        const index = pushingKeyNumbers.indexOf(newNoteNumber);
         if (index === -1) return;
         setPushingKeyNumbers((pushedKeyNumbers) => {
           pushedKeyNumbers.splice(index, 1);
@@ -79,8 +26,13 @@ export const App = () => {
         });
       }
     },
-    [pushingKeyNumbers, setPushingKeyNumbers],
+    [pushingKeyNumbers],
   );
+
+  // キーに表示するラベル関連
+  const [keyLabelType, setKeyLabelType] = useState<
+    "italian" | "american" | undefined
+  >();
   const changeLabelType = useCallback(
     (ev: React.ChangeEvent) => {
       switch ((ev.currentTarget as HTMLSelectElement).selectedIndex) {
@@ -97,12 +49,28 @@ export const App = () => {
     },
     [setKeyLabelType],
   );
+
+  // ピアノを折りたたむか
+  const [isSingleOctave, setIsSingleOctave] = useState(false);
   const onSwitchSingleOctave = useCallback(
     (ev: React.ChangeEvent) => {
       setIsSingleOctave((ev.currentTarget as HTMLInputElement).checked);
     },
     [setIsSingleOctave],
   );
+
+  // MIDIキーボード関連
+  const { devices, selectDevice } = useMidiKeyboard(updatePushingKeyNumbers);
+  const onSelectDevice = useCallback(
+    (ev: React.ChangeEvent) => {
+      const idx = (ev.currentTarget as HTMLSelectElement).selectedIndex;
+      selectDevice(idx);
+    },
+    [selectDevice],
+  );
+
+  // 音声出力関連
+  const { volume, setVolume } = useSound();
   const onSlideVolume = useCallback(
     (ev: React.ChangeEvent) => {
       const volume = Number((ev.target as HTMLInputElement).value);
@@ -111,30 +79,8 @@ export const App = () => {
     [setVolume],
   );
 
-  useEffect(() => {
-    // デバイスの取得
-    initMidiDevice(addDevice);
-  }, [addDevice]);
-  useEffect(() => {
-    setBeepVolume(volume);
-  }, [volume]);
-  useEffect(() => {
-    // ターゲットのデバイスが更新されたらcallbackを登録
-    if (targetDeviceName === undefined) return;
-    devices[targetDeviceName].addEventListener(
-      "midimessage",
-      midiCallback,
-      false,
-    );
-    // callbackが重複しないよう、useEffectが更新される際にEventListenerを削除する
-    return () => {
-      devices[targetDeviceName].removeEventListener(
-        "midimessage",
-        midiCallback,
-        false,
-      );
-    };
-  }, [devices, midiCallback, targetDeviceName]);
+  // PCのキーボード関連
+  useKeyboard(updatePushingKeyNumbers);
 
   return (
     <>
@@ -143,7 +89,7 @@ export const App = () => {
         <div style={{ fontWeight: "bold" }}>オプション</div>
         <div>
           <label>MIDIデバイス：</label>
-          <select onChange={selectDevice}>
+          <select onChange={onSelectDevice}>
             <option>なし</option>
             {Object.keys(devices).map((deviceName) => (
               <option key={deviceName}>{deviceName}</option>
@@ -172,7 +118,7 @@ export const App = () => {
             max="1"
             step="0.05"
           />
-          <label>{volume * 100} %</label>
+          <label>{Math.round(volume * 100)} %</label>
         </div>
       </div>
       <Piano
