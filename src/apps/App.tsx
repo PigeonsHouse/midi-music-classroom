@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { Piano } from "../components/Piano";
-import { initMidiDevice } from "../utils/midi";
+import { initMidiDevice } from "./midi";
+import { beepNote, setBeepVolume } from "./sounds";
 import { Title } from "./styled";
 
 type DeviceMap = {
@@ -17,6 +18,7 @@ export const App = () => {
     "italian" | "american" | undefined
   >();
   const [isSingleOctave, setIsSingleOctave] = useState(false);
+  const [volume, setVolume] = useState(0.5);
 
   const addDevice = useCallback(
     (newDevice: MIDIInput) => {
@@ -67,6 +69,7 @@ export const App = () => {
           pushedKeyNumbers.push(noteNumber);
           return [...pushedKeyNumbers];
         });
+        beepNote(noteNumber);
       } else {
         const index = pushingKeyNumbers.indexOf(noteNumber);
         if (index === -1) return;
@@ -100,12 +103,21 @@ export const App = () => {
     },
     [setIsSingleOctave],
   );
+  const onSlideVolume = useCallback(
+    (ev: React.ChangeEvent) => {
+      const volume = Number((ev.target as HTMLInputElement).value);
+      setVolume(volume);
+    },
+    [setVolume],
+  );
 
   useEffect(() => {
     // デバイスの取得
     initMidiDevice(addDevice);
   }, [addDevice]);
-
+  useEffect(() => {
+    setBeepVolume(volume);
+  }, [volume]);
   useEffect(() => {
     // ターゲットのデバイスが更新されたらcallbackを登録
     if (targetDeviceName === undefined) return;
@@ -149,6 +161,18 @@ export const App = () => {
         <div>
           <input type="checkbox" onChange={onSwitchSingleOctave} />
           <label>1オクターブに畳む</label>
+        </div>
+        <div>
+          <label>音量</label>
+          <input
+            type="range"
+            value={volume}
+            onChange={onSlideVolume}
+            min="0"
+            max="1"
+            step="0.05"
+          />
+          <label>{volume * 100} %</label>
         </div>
       </div>
       <Piano
