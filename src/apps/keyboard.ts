@@ -5,6 +5,9 @@ type KeyNoteMap = {
 };
 
 const keyNoteMap: KeyNoteMap = {
+  KeyZ: 45,
+  KeyS: 46,
+  KeyX: 47,
   KeyC: 48,
   KeyF: 49,
   KeyV: 50,
@@ -17,6 +20,15 @@ const keyNoteMap: KeyNoteMap = {
   Comma: 57,
   KeyL: 58,
   Period: 59,
+  Slash: 60,
+  Quote: 61,
+  IntlRo: 62,
+  Backslash: 63,
+
+  Digit1: 56,
+  KeyQ: 57,
+  Digit2: 58,
+  KeyW: 59,
   KeyE: 60,
   Digit4: 61,
   KeyR: 62,
@@ -30,6 +42,10 @@ const keyNoteMap: KeyNoteMap = {
   Digit9: 70,
   KeyO: 71,
   KeyP: 72,
+  Minus: 73,
+  BracketLeft: 74,
+  Equal: 75,
+  BracketRight: 76,
 };
 
 export const useKeyboard = (
