@@ -123,7 +123,11 @@ const App = () => {
           <label>1オクターブに畳む</label>
         </div>
       </div>
-      <Piano isSingleOctove={isSingleOctove} labelType={keyLabelType} />
+      <Piano
+        isSingleOctove={isSingleOctove}
+        labelType={keyLabelType}
+        pushingKeyNumbers={pushingKeyNumbers}
+      />
     </>
   );
 };

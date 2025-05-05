@@ -29,6 +29,9 @@ const WhiteKeyStyle = `
   display: flex;
   justify-content:  center;
   align-items: end;
+  &.pushed {
+    background-color: ${pianoColor.pushedKey};
+  }
 `;
 
 export const ThreeWhiteKey = styled.div`
@@ -45,12 +48,17 @@ const BlackKeyStyle = `
   height: 64%;
   background-color: ${pianoColor.blackKey};
   color: ${pianoColor.whiteKey};
+  box-sizing: border-box;
+  border: ${borderWidth}px solid ${pianoColor.blackKey};
   position: absolute;
   top: 0;
   width: ${pianoWidth}px;
   display: flex;
   justify-content:  center;
   align-items: end;
+  &.pushed {
+    background-color: ${pianoColor.pushedKey};
+  }
 `;
 
 export const DoBlackKey = styled.div`
