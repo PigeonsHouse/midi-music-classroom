@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from "react";
+import { americanKeyLabel, italianKeyLabel } from "../../definitions/keyLabel";
 import {
   DoBlackKey,
   FaBlackKey,
@@ -10,33 +11,33 @@ import {
   SoBlackKey,
   ThreeWhiteKey,
 } from "./styled";
-import { americanKeyLabel, italianKeyLabel } from "../../definitions/keyLabel";
 
 type PianoProps = {
-  isSingleOctove: boolean;
+  isSingleOctave: boolean;
   labelType?: "italian" | "american";
   pushingKeyNumbers: number[];
 };
 
-const Piano: React.FC<PianoProps> = ({
-  isSingleOctove,
+export const Piano: React.FC<PianoProps> = ({
+  isSingleOctave,
   labelType,
   pushingKeyNumbers,
 }) => {
-  const label =
-    labelType === "italian"
+  const label = useMemo(() => {
+    return labelType === "italian"
       ? italianKeyLabel
       : labelType === "american"
         ? americanKeyLabel
         : [];
+  }, [labelType]);
   const fixedPushingKeyNumbers = useMemo(() => {
-    return isSingleOctove
-      ? // isSingleOctoveの場合0~11に畳む
+    return isSingleOctave
+      ? // isSingleOctaveの場合0~11に畳む
         Array.from(new Set(pushingKeyNumbers.map((num) => num % 12)))
       : pushingKeyNumbers;
-  }, [isSingleOctove, pushingKeyNumbers]);
+  }, [isSingleOctave, pushingKeyNumbers]);
 
-  const octoveElement = useCallback(
+  const octaveElement = useCallback(
     (nth?: number) => {
       const offset = nth === undefined ? 0 : (nth + 2) * 12;
       const isPushed = (number: number) =>
@@ -81,20 +82,18 @@ const Piano: React.FC<PianoProps> = ({
 
   return (
     <KeyboardRoot>
-      {isSingleOctove ? (
-        octoveElement()
+      {isSingleOctave ? (
+        octaveElement()
       ) : (
         <>
-          {octoveElement(0)}
-          {octoveElement(1)}
-          {octoveElement(2)}
-          {octoveElement(3)}
-          {octoveElement(4)}
-          {octoveElement(5)}
+          {octaveElement(0)}
+          {octaveElement(1)}
+          {octaveElement(2)}
+          {octaveElement(3)}
+          {octaveElement(4)}
+          {octaveElement(5)}
         </>
       )}
     </KeyboardRoot>
   );
 };
-
-export default Piano;

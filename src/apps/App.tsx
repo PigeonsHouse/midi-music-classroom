@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
-import Piano from "./components/Piano";
-import { initMidiDevice } from "./utils/midi";
-import { Title } from "./App.styled";
+import { Piano } from "../components/Piano";
+import { initMidiDevice } from "../utils/midi";
+import { Title } from "./styled";
 
 type DeviceMap = {
   [key: string]: MIDIInput;
 };
 
-const App = () => {
+export const App = () => {
   const [devices, setDevices] = useState<DeviceMap>({});
   const [pushingKeyNumbers, setPushingKeyNumbers] = useState<number[]>([]);
   const [keyLabelType, setKeyLabelType] = useState<
     "italian" | "american" | undefined
   >();
-  const [isSingleOctove, setIsSingleOctove] = useState(false);
+  const [isSingleOctave, setIsSingleOctave] = useState(false);
 
   const addDevice = useCallback(
     (newDevice: MIDIInput) => {
@@ -80,11 +80,11 @@ const App = () => {
     },
     [setKeyLabelType],
   );
-  const onSwitchSingleOctove = useCallback(
+  const onSwitchSingleOctave = useCallback(
     (ev: React.ChangeEvent) => {
-      setIsSingleOctove((ev.currentTarget as HTMLInputElement).checked);
+      setIsSingleOctave((ev.currentTarget as HTMLInputElement).checked);
     },
-    [setIsSingleOctove],
+    [setIsSingleOctave],
   );
 
   useEffect(() => {
@@ -119,17 +119,15 @@ const App = () => {
           </select>
         </div>
         <div>
-          <input type="checkbox" onChange={onSwitchSingleOctove} />
+          <input type="checkbox" onChange={onSwitchSingleOctave} />
           <label>1オクターブに畳む</label>
         </div>
       </div>
       <Piano
-        isSingleOctove={isSingleOctove}
+        isSingleOctave={isSingleOctave}
         labelType={keyLabelType}
         pushingKeyNumbers={pushingKeyNumbers}
       />
     </>
   );
 };
-
-export default App;
