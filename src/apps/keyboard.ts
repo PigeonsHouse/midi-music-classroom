@@ -5,6 +5,18 @@ type KeyNoteMap = {
 };
 
 const keyNoteMap: KeyNoteMap = {
+  KeyC: 48,
+  KeyF: 49,
+  KeyV: 50,
+  KeyG: 51,
+  KeyB: 52,
+  KeyN: 53,
+  KeyJ: 54,
+  KeyM: 55,
+  KeyK: 56,
+  Comma: 57,
+  KeyL: 58,
+  Period: 59,
   KeyE: 60,
   Digit4: 61,
   KeyR: 62,
