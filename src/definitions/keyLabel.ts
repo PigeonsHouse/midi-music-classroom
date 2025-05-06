@@ -30,6 +30,7 @@ export const keyLabel = {
 };
 
 export type LabelType = keyof typeof keyLabel;
+export type ScaleType = (typeof keyLabel.american)[number];
 
 export const chordLabels = [
   // 三和音

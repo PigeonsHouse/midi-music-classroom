@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { ChordInfo } from "../components/ChordInfo";
 import { Piano } from "../components/Piano";
-import type { LabelType } from "../definitions/keyLabel";
+import { type LabelType, ScaleType, keyLabel } from "../definitions/keyLabel";
 import { useKeyboard } from "./keyboard";
 import { useMidiKeyboard } from "./midi";
 import { beepNote, useSound } from "./sounds";
@@ -68,6 +68,13 @@ export const App = () => {
     [setIsHideInversion],
   );
 
+  // スケール表示関連
+  const [scale, setScale] = useState<ScaleType | undefined>(undefined);
+  const onSelectScale = useCallback((ev: React.ChangeEvent) => {
+    const idx = (ev.currentTarget as HTMLSelectElement).selectedIndex;
+    setScale(keyLabel.american[idx - 1]);
+  }, []);
+
   // MIDIキーボード関連
   const { devices, selectDevice } = useMidiKeyboard(updatePushingKeyNumbers);
   const onSelectDevice = useCallback(
@@ -133,11 +140,23 @@ export const App = () => {
           <input type="checkbox" onChange={onSwitchHideFraction} />
           <label>転回形の分数表記を省略する</label>
         </div>
+        <div>
+          <label>スケール表示：</label>
+          <select onChange={onSelectScale}>
+            <option>なし</option>
+            {keyLabel.american.map((scale) => (
+              <option key={scale} value={scale}>
+                {scale}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
       <Piano
         isSingleOctave={isSingleOctave}
         labelType={keyLabelType}
         pushingKeyNumbers={pushingKeyNumbers}
+        scale={scale}
       />
       <ChordInfo
         pushingKeyNumbers={pushingKeyNumbers}

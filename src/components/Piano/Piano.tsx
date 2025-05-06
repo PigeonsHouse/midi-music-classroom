@@ -1,29 +1,31 @@
-import { useCallback, useMemo } from "react";
-import { LabelType, keyLabel } from "../../definitions/keyLabel";
+import { cx } from "@emotion/css";
+import React, { Fragment, useCallback, useMemo } from "react";
+import { LabelType, ScaleType, keyLabel } from "../../definitions/keyLabel";
 import { clusteringNotes } from "../../utils/notes";
 import {
-  DoBlackKey,
-  FaBlackKey,
+  BlackKey,
   FourWhiteKey,
   KeyboardOctaveRoot,
   KeyboardRoot,
-  LaBlackKey,
-  ReBlackKey,
-  SoBlackKey,
+  Ruler,
   ThreeWhiteKey,
+  absoluteKeyPosition,
 } from "./styled";
 
 type PianoProps = {
   isSingleOctave: boolean;
   labelType?: LabelType;
   pushingKeyNumbers: number[];
+  scale?: ScaleType;
 };
 
 export const Piano: React.FC<PianoProps> = ({
   isSingleOctave,
   labelType,
   pushingKeyNumbers,
+  scale,
 }) => {
+  const scaleOffset = scale ? keyLabel.american.indexOf(scale) : undefined;
   const label = useMemo(() => {
     return labelType ? keyLabel[labelType] : [];
   }, [labelType]);
@@ -33,48 +35,75 @@ export const Piano: React.FC<PianoProps> = ({
         clusteringNotes(pushingKeyNumbers)
       : pushingKeyNumbers;
   }, [isSingleOctave, pushingKeyNumbers]);
+  const octaveMaterial = useMemo(
+    () => [
+      ThreeWhiteKey,
+      BlackKey,
+      ThreeWhiteKey,
+      BlackKey,
+      ThreeWhiteKey,
+      FourWhiteKey,
+      BlackKey,
+      FourWhiteKey,
+      BlackKey,
+      FourWhiteKey,
+      BlackKey,
+      FourWhiteKey,
+    ],
+    [],
+  );
 
+  const getRulerType = useCallback(
+    (index: number) => {
+      if (scaleOffset === undefined) return undefined;
+      const degree = (12 + index - scaleOffset) % 12;
+      if (degree === 0) return "root";
+      if ([2, 4, 5, 7, 9, 11].includes(degree)) return "diatonic";
+      return undefined;
+    },
+    [scaleOffset],
+  );
+  const isPushed = useCallback(
+    (number: number) =>
+      fixedPushingKeyNumbers.includes(number) ? "pushed" : undefined,
+    [fixedPushingKeyNumbers],
+  );
   const octaveElement = useCallback(
     (nth?: number) => {
-      const offset = nth === undefined ? 0 : (nth + 2) * 12;
-      const isPushed = (number: number) =>
-        fixedPushingKeyNumbers.includes(number) ? "pushed" : undefined;
+      const octaveOffset = nth === undefined ? 0 : (nth + 2) * 12;
       return (
         <>
           <KeyboardOctaveRoot>
-            <ThreeWhiteKey className={isPushed(offset)}>
-              {label[0]}
-            </ThreeWhiteKey>
-            <DoBlackKey className={isPushed(offset + 1)}>{label[1]}</DoBlackKey>
-            <ThreeWhiteKey className={isPushed(offset + 2)}>
-              {label[2]}
-            </ThreeWhiteKey>
-            <ReBlackKey className={isPushed(offset + 3)}>{label[3]}</ReBlackKey>
-            <ThreeWhiteKey className={isPushed(offset + 4)}>
-              {label[4]}
-            </ThreeWhiteKey>
-            <FourWhiteKey className={isPushed(offset + 5)}>
-              {label[5]}
-            </FourWhiteKey>
-            <FaBlackKey className={isPushed(offset + 6)}>{label[6]}</FaBlackKey>
-            <FourWhiteKey className={isPushed(offset + 7)}>
-              {label[7]}
-            </FourWhiteKey>
-            <SoBlackKey className={isPushed(offset + 8)}>{label[8]}</SoBlackKey>
-            <FourWhiteKey className={isPushed(offset + 9)}>
-              {label[9]}
-            </FourWhiteKey>
-            <LaBlackKey className={isPushed(offset + 10)}>
-              {label[10]}
-            </LaBlackKey>
-            <FourWhiteKey className={isPushed(offset + 11)}>
-              {label[11]}
-            </FourWhiteKey>
+            {octaveMaterial.map((KeyElement, index) => {
+              const keyClassName = cx(
+                KeyElement === BlackKey
+                  ? absoluteKeyPosition(index)
+                  : undefined,
+                isPushed(octaveOffset + index),
+              );
+              const rulerType = getRulerType(index);
+              const rulerClassName = cx(
+                absoluteKeyPosition(index),
+                rulerType,
+                isPushed(octaveOffset + index),
+              );
+              const rulerLabel = rulerType === "root" ? "R" : undefined;
+              return (
+                <Fragment key={index}>
+                  <KeyElement className={keyClassName}>
+                    {label[index]}
+                  </KeyElement>
+                  {scale && (
+                    <Ruler className={rulerClassName}>{rulerLabel}</Ruler>
+                  )}
+                </Fragment>
+              );
+            })}
           </KeyboardOctaveRoot>
         </>
       );
     },
-    [label, fixedPushingKeyNumbers],
+    [getRulerType, isPushed, label, octaveMaterial, scale],
   );
 
   return (
