@@ -5,6 +5,7 @@ type KeyNoteMap = {
 };
 
 const keyNoteMap: KeyNoteMap = {
+  KeyA: 44,
   KeyZ: 45,
   KeyS: 46,
   KeyX: 47,
