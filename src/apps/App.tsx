@@ -165,6 +165,7 @@ export const App = () => {
       <ChordInfo
         pushingKeyNumbers={pushingKeyNumbers}
         isHideInversion={isHideInversion}
+        scale={scale}
       />
     </>
   );

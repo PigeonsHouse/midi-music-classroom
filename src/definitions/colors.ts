@@ -15,3 +15,9 @@ export const rulerColor = {
   outline: "#FFFFFF",
   label: "#FFFFFF",
 };
+
+export const chordColor = {
+  tonic: "#49B656",
+  subdominant: "#F1AB31",
+  dominant: "#F15031",
+};

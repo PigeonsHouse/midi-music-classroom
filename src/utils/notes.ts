@@ -1,4 +1,4 @@
-import { chordLabels, keyLabel } from "../definitions/keyLabel";
+import { ChordType, chordLabels, chordType } from "../definitions/keyLabel";
 import { isMatchArrays, removeTargetItem } from "./array";
 
 /**
@@ -39,12 +39,18 @@ export const clusteringNotes = (numbers: AbsoluteNoteNumber[]) => {
   return Array.from(new Set(numbers.map(toRelative)));
 };
 
+type ChordInfo = {
+  key: number;
+  type: ChordType;
+  rootKey?: number;
+};
+
 /**
  * 鳴らしている絶対的なnoteNumberの配列を渡すと、コード名を返す
  * 複数解釈できたら複数返す
  * @param absoluteNotes 鳴らしている音の配列
  * @param isHideInversion 転回形の分数表記を省略するか
- * @returns string[]
+ * @returns ChordInfo[]
  */
 export const getChords = (
   absoluteNotes: number[],
@@ -57,7 +63,7 @@ export const getChords = (
   const relativeNotes = clusteringNotes(absoluteNotes);
 
   // 解釈できたコードネーム
-  const chords: string[] = [];
+  const chordInfo: ChordInfo[] = [];
 
   // 三和音・四和音(転回形含む)の解釈
   // 構成音から一つ取り、ルートとしておく
@@ -78,16 +84,18 @@ export const getChords = (
       ) {
         // 転回形の表示
         const fractionName =
-          isInversion && !isHideInversion
-            ? `/${keyLabel.american[relativeRootNote]}`
-            : "";
-        chords.push(`${keyLabel.american[tempRootNote]}${name}${fractionName}`);
+          isInversion && !isHideInversion ? relativeRootNote : undefined;
+        chordInfo.push({
+          key: tempRootNote,
+          type: name,
+          rootKey: fractionName,
+        });
       }
     });
   }
   // 分数コード
   // 解釈できたコードがなく、ルート音の上がトライアドのみ(構成音が4種類)の場合、分数コードを解釈する
-  if (chords.length === 0 && relativeNotes.length === 4) {
+  if (chordInfo.length === 0 && relativeNotes.length === 4) {
     // 鳴らしている音から一番低い音を除いた構成音
     const absoluteTopNotes = removeTargetItem(absoluteNotes, absoluteRootNote);
     // 上の和音の一番低い音の相対数値
@@ -110,12 +118,91 @@ export const getChords = (
           !(name === "aug" && secondRootNote !== topTempRootNote)
         ) {
           // ルート音はsecondRootNoteではないのでisInversionは確認しない
-          chords.push(
-            `${keyLabel.american[topTempRootNote]}${name}/${keyLabel.american[relativeRootNote]}`,
-          );
+          chordInfo.push({
+            key: topTempRootNote,
+            type: name,
+            rootKey: relativeRootNote,
+          });
         }
       });
     }
   }
-  return chords;
+  return chordInfo;
+};
+
+const degreeLabels = [
+  "Ⅰ",
+  "Ⅰ♯",
+  "Ⅱ",
+  "Ⅱ♯",
+  "Ⅲ",
+  "Ⅳ",
+  "Ⅳ♯",
+  "Ⅴ",
+  "Ⅴ♯",
+  "Ⅵ",
+  "Ⅵ♯",
+  "Ⅶ",
+  "♭Ⅲ",
+  "♭Ⅵ",
+  "♭Ⅶ",
+] as const;
+
+type ChordFunction = "tonic" | "dominant" | "subdominant";
+
+type Degree = {
+  degreeLabel: (typeof degreeLabels)[number];
+  type: ChordType;
+  chordFunction?: ChordFunction;
+};
+
+export const getDegree = (chordInfos: ChordInfo[], scale: number) => {
+  const degrees: Degree[] = [];
+  for (const info of chordInfos) {
+    const degreeIndex = (12 + info.key - scale) % 12;
+    let degreeLabel = degreeLabels[degreeIndex];
+    let chordFunction: ChordFunction | undefined = undefined;
+
+    // TODO: もうちょいきれいに書きたい
+    if (
+      (degreeIndex === 0 && ["", "M7"].includes(info.type)) ||
+      (degreeIndex === 4 && ["m"].includes(info.type)) ||
+      (degreeIndex === 9 && ["m", "m7"].includes(info.type))
+    ) {
+      chordFunction = "tonic";
+    }
+    if (
+      (degreeIndex === 2 && ["m", "m7"].includes(info.type)) ||
+      (degreeIndex === 5 && ["", "M7"].includes(info.type))
+    ) {
+      chordFunction = "subdominant";
+    }
+    if (
+      (degreeIndex === 7 && ["", "7", "aug"].includes(info.type)) ||
+      (degreeIndex === 11 && ["m(♭5)", "m7(♭5)"].includes(info.type))
+    ) {
+      chordFunction = "dominant";
+    }
+
+    if (degreeIndex === 3 && info.type === chordType.Major) {
+      degreeLabel = "♭Ⅲ";
+    }
+    if (degreeIndex === 8 && info.type === chordType.Major) {
+      degreeLabel = "♭Ⅵ";
+      // TODO: 厳密には違うので色を変えたい
+      chordFunction = "subdominant";
+    }
+    if (degreeIndex === 10 && info.type === chordType.Major) {
+      degreeLabel = "♭Ⅶ";
+      // TODO: 厳密には違うので色を変えたい
+      chordFunction = "dominant";
+    }
+
+    degrees.push({
+      degreeLabel,
+      type: info.type,
+      chordFunction,
+    });
+  }
+  return degrees;
 };
