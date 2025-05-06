@@ -115,7 +115,7 @@ export const App = () => {
 
   return (
     <>
-      <Title>🎹学べるWebピアノ🏫</Title>
+      <Title>鳩屋敷のWebピアノ</Title>
       <div style={{ textAlign: "center", marginBottom: 12 }}>
         <div style={{ fontWeight: "bold" }}>オプション</div>
         <div>
