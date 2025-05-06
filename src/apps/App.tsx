@@ -145,7 +145,7 @@ export const App = () => {
           <label>転回形の分数表記を省略する</label>
         </div>
         <div>
-          <label>スケール表示：</label>
+          <label>メジャースケール表示：</label>
           <select onChange={onSelectScale}>
             <option>なし</option>
             {keyLabel.american.map((scale) => (
