@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { keyLabel } from "../../definitions/keyLabel";
+import { LabelType, keyLabel } from "../../definitions/keyLabel";
 import { clusteringNotes } from "../../utils/notes";
 import {
   DoBlackKey,
@@ -15,7 +15,7 @@ import {
 
 type PianoProps = {
   isSingleOctave: boolean;
-  labelType?: "italian" | "american";
+  labelType?: LabelType;
   pushingKeyNumbers: number[];
 };
 

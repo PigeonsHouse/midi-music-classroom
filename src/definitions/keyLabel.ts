@@ -12,9 +12,24 @@ export const keyLabel = {
     "ラ",
     "ラ♯",
     "シ",
-  ],
-  american: ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"],
+  ] as const,
+  american: [
+    "C",
+    "C♯",
+    "D",
+    "D♯",
+    "E",
+    "F",
+    "F♯",
+    "G",
+    "G♯",
+    "A",
+    "A♯",
+    "B",
+  ] as const,
 };
+
+export type LabelType = keyof typeof keyLabel;
 
 export const chordLabels = [
   // 三和音

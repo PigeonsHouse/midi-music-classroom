@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react";
 import { ChordInfo } from "../components/ChordInfo";
 import { Piano } from "../components/Piano";
+import type { LabelType } from "../definitions/keyLabel";
 import { useKeyboard } from "./keyboard";
 import { useMidiKeyboard } from "./midi";
 import { beepNote, useSound } from "./sounds";
@@ -31,9 +32,7 @@ export const App = () => {
   );
 
   // キーに表示するラベル関連
-  const [keyLabelType, setKeyLabelType] = useState<
-    "italian" | "american" | undefined
-  >();
+  const [keyLabelType, setKeyLabelType] = useState<LabelType | undefined>();
   const changeLabelType = useCallback(
     (ev: React.ChangeEvent) => {
       switch ((ev.currentTarget as HTMLSelectElement).selectedIndex) {
