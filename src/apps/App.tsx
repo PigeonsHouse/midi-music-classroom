@@ -72,7 +72,11 @@ export const App = () => {
   const [scale, setScale] = useState<ScaleType | undefined>(undefined);
   const onSelectScale = useCallback((ev: React.ChangeEvent) => {
     const idx = (ev.currentTarget as HTMLSelectElement).selectedIndex;
-    setScale(keyLabel.american[idx - 1]);
+    if (idx) {
+      setScale(keyLabel.american[idx - 1]);
+    } else {
+      setScale(undefined);
+    }
   }, []);
 
   // MIDIキーボード関連
