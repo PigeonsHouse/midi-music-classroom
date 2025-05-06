@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 const AudioList: HTMLAudioElement[] = [];
 
 for (let i = 24; i < 96; i++) {
-  AudioList[i] = new Audio(`/notes/${i}.wav`);
+  AudioList[i] = new Audio(`./notes/${i}.wav`);
 }
 
 const setBeepVolume = (volume: number) => {
