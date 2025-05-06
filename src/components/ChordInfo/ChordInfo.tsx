@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { ChordLabel, Container } from "./styled";
 import { getChords } from "../../utils/notes";
+import { ChordLabel, Container } from "./styled";
 
 type ChordInfoProps = {
   pushingKeyNumbers: number[];

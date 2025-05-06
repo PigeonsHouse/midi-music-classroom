@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react";
+import { ChordInfo } from "../components/ChordInfo";
 import { Piano } from "../components/Piano";
 import { useKeyboard } from "./keyboard";
 import { useMidiKeyboard } from "./midi";
 import { beepNote, useSound } from "./sounds";
 import { Title } from "./styled";
-import { ChordInfo } from "../components/ChordInfo";
 
 export const App = () => {
   // 押しているキーを中央管理する箇所

@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { keyLabel } from "../../definitions/keyLabel";
+import { clusteringNotes } from "../../utils/notes";
 import {
   DoBlackKey,
   FaBlackKey,
@@ -11,7 +12,6 @@ import {
   SoBlackKey,
   ThreeWhiteKey,
 } from "./styled";
-import { clusteringNotes } from "../../utils/notes";
 
 type PianoProps = {
   isSingleOctave: boolean;
