@@ -4,6 +4,7 @@ import { useKeyboard } from "./keyboard";
 import { useMidiKeyboard } from "./midi";
 import { beepNote, useSound } from "./sounds";
 import { Title } from "./styled";
+import { ChordInfo } from "../components/ChordInfo";
 
 export const App = () => {
   // 押しているキーを中央管理する箇所
@@ -20,10 +21,9 @@ export const App = () => {
       } else {
         const index = pushingKeyNumbers.indexOf(newNoteNumber);
         if (index === -1) return;
-        setPushingKeyNumbers((pushedKeyNumbers) => {
-          pushedKeyNumbers.splice(index, 1);
-          return [...pushedKeyNumbers];
-        });
+        setPushingKeyNumbers((pushedKeyNumbers) =>
+          pushedKeyNumbers.toSpliced(index, 1),
+        );
       }
     },
     [pushingKeyNumbers],
@@ -57,6 +57,15 @@ export const App = () => {
       setIsSingleOctave((ev.currentTarget as HTMLInputElement).checked);
     },
     [setIsSingleOctave],
+  );
+
+  // 転回形の分数表記を省略するか
+  const [isHideInversion, setIsHideInversion] = useState(false);
+  const onSwitchHideFraction = useCallback(
+    (ev: React.ChangeEvent) => {
+      setIsHideInversion((ev.currentTarget as HTMLInputElement).checked);
+    },
+    [setIsHideInversion],
   );
 
   // MIDIキーボード関連
@@ -120,11 +129,19 @@ export const App = () => {
           />
           <label>{Math.round(volume * 100)} %</label>
         </div>
+        <div>
+          <input type="checkbox" onChange={onSwitchHideFraction} />
+          <label>転回形の分数表記を省略する</label>
+        </div>
       </div>
       <Piano
         isSingleOctave={isSingleOctave}
         labelType={keyLabelType}
         pushingKeyNumbers={pushingKeyNumbers}
+      />
+      <ChordInfo
+        pushingKeyNumbers={pushingKeyNumbers}
+        isHideInversion={isHideInversion}
       />
     </>
   );

@@ -11,6 +11,7 @@ import {
   SoBlackKey,
   ThreeWhiteKey,
 } from "./styled";
+import { clusteringNotes } from "../../utils/notes";
 
 type PianoProps = {
   isSingleOctave: boolean;
@@ -29,7 +30,7 @@ export const Piano: React.FC<PianoProps> = ({
   const fixedPushingKeyNumbers = useMemo(() => {
     return isSingleOctave
       ? // isSingleOctaveの場合0~11に畳む
-        Array.from(new Set(pushingKeyNumbers.map((num) => num % 12)))
+        clusteringNotes(pushingKeyNumbers)
       : pushingKeyNumbers;
   }, [isSingleOctave, pushingKeyNumbers]);
 
