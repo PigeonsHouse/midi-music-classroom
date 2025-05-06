@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 const AudioList: HTMLAudioElement[] = [];
 
 for (let i = 24; i < 96; i++) {
+  // github pagesでトップページがパス付きになっているので、window.locationをベースに付けている
+  // SPAのため、不整合はないはず
   AudioList[i] = new Audio(`${window.location}/notes/${i}.wav`);
 }
 
