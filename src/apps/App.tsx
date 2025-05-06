@@ -8,10 +8,21 @@ import { beepNote, useSound } from "./sounds";
 import { Title } from "./styled";
 
 export const App = () => {
+  // トランスポーズ関連
+  const [transposeScale, setTransposeScale] = useState(0);
+  const onSlideTranspose = useCallback(
+    (ev: React.ChangeEvent) => {
+      const volume = Number((ev.target as HTMLInputElement).value);
+      setTransposeScale(volume);
+    },
+    [setTransposeScale],
+  );
+
   // 押しているキーを中央管理する箇所
   const [pushingKeyNumbers, setPushingKeyNumbers] = useState<number[]>([]);
   const updatePushingKeyNumbers = useCallback(
     (newNoteNumber: number, isOn: boolean) => {
+      newNoteNumber += transposeScale;
       if (isOn) {
         setPushingKeyNumbers((pushedKeyNumbers) =>
           pushingKeyNumbers.includes(newNoteNumber)
@@ -28,7 +39,7 @@ export const App = () => {
         });
       }
     },
-    [pushingKeyNumbers],
+    [pushingKeyNumbers, transposeScale],
   );
 
   // キーに表示するラベル関連
@@ -154,6 +165,25 @@ export const App = () => {
               </option>
             ))}
           </select>
+        </div>
+        <div>
+          <label>トランスポーズ</label>
+          <input
+            type="range"
+            value={transposeScale}
+            onChange={onSlideTranspose}
+            min="-6"
+            max="6"
+            step="1"
+          />
+          <div>
+            <label>キー：{keyLabel.american[(12 + transposeScale) % 12]}</label>
+          </div>
+          {transposeScale !== 0 && (
+            <div>
+              <small>※下のキーボードの光る位置もトランスポーズします。</small>
+            </div>
+          )}
         </div>
       </div>
       <Piano
