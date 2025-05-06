@@ -12,18 +12,19 @@ export const App = () => {
   const updatePushingKeyNumbers = useCallback(
     (newNoteNumber: number, isOn: boolean) => {
       if (isOn) {
-        if (pushingKeyNumbers.includes(newNoteNumber)) return;
-        setPushingKeyNumbers((pushedKeyNumbers) => {
-          pushedKeyNumbers.push(newNoteNumber);
-          return [...pushedKeyNumbers];
-        });
+        setPushingKeyNumbers((pushedKeyNumbers) =>
+          pushingKeyNumbers.includes(newNoteNumber)
+            ? pushedKeyNumbers
+            : pushedKeyNumbers.concat(newNoteNumber),
+        );
         beepNote(newNoteNumber);
       } else {
-        const index = pushingKeyNumbers.indexOf(newNoteNumber);
-        if (index === -1) return;
-        setPushingKeyNumbers((pushedKeyNumbers) =>
-          pushedKeyNumbers.toSpliced(index, 1),
-        );
+        setPushingKeyNumbers((pushedKeyNumbers) => {
+          const index = pushedKeyNumbers.indexOf(newNoteNumber);
+          return index === -1
+            ? pushedKeyNumbers
+            : pushedKeyNumbers.toSpliced(index, 1);
+        });
       }
     },
     [pushingKeyNumbers],
