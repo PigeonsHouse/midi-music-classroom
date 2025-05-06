@@ -31,6 +31,7 @@ const WhiteKeyStyle = `
   align-items: end;
   &.pushed {
     background-color: ${pianoColor.pushedKey};
+    color: ${pianoColor.pushedLabelKey};
   }
 `;
 
@@ -58,6 +59,7 @@ const BlackKeyStyle = `
   align-items: end;
   &.pushed {
     background-color: ${pianoColor.pushedKey};
+    color: ${pianoColor.pushedLabelKey};
   }
 `;
 
