@@ -54,7 +54,8 @@ export const useKeyboard = (
 ) => {
   const keydownCallback = useCallback(
     (ev: KeyboardEvent) => {
-      if (ev.shiftKey || ev.ctrlKey || ev.altKey || ev.metaKey) return;
+      if (ev.shiftKey || ev.ctrlKey || ev.altKey || ev.metaKey || ev.repeat)
+        return;
       updatePushingKeyNumbers(keyNoteMap[ev.code], true);
     },
     [updatePushingKeyNumbers],
