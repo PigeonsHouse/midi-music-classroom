@@ -6,6 +6,7 @@ export const usePushingKeys = (transposeScale: number) => {
   const updatePushingKeyNumbers = useCallback(
     (newNoteNumber: number, isOn: boolean) => {
       newNoteNumber += transposeScale;
+      if (Number.isNaN(newNoteNumber)) return;
       const numberUpdateCallback = isOn
         ? (pushedKeyNumbers: number[]) => {
             const isExist = pushingKeyNumbers.includes(newNoteNumber);
