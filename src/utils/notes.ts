@@ -43,6 +43,7 @@ type ChordInfo = {
   key: number;
   type: ChordType;
   rootKey?: number;
+  isInversion: boolean;
 };
 
 /**
@@ -89,6 +90,7 @@ export const getChords = (
           key: tempRootNote,
           type: name,
           rootKey: fractionName,
+          isInversion,
         });
       }
     });
@@ -122,6 +124,7 @@ export const getChords = (
             key: topTempRootNote,
             type: name,
             rootKey: relativeRootNote,
+            isInversion: false,
           });
         }
       });
@@ -196,6 +199,10 @@ export const getDegree = (chordInfos: ChordInfo[], scale: number) => {
       degreeLabel = "♭Ⅶ";
       // TODO: 厳密には違うので色を変えたい
       chordFunction = "dominant";
+    }
+
+    if (info.isInversion) {
+      chordFunction = undefined;
     }
 
     degrees.push({
