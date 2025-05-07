@@ -23,10 +23,10 @@ export const ScaleDisplay: React.FC<ScaleDisplayProps> = ({
     <div>
       <label>メジャースケール表示：</label>
       <select onChange={onSelectScale}>
-        <option>なし</option>
-        {keyLabel.american.map((scale) => (
-          <option key={scale} value={scale}>
-            {scale}
+        <option selected={scale === undefined}>なし</option>
+        {keyLabel.american.map((keyScale) => (
+          <option key={keyScale} value={keyScale} selected={scale === keyScale}>
+            {keyScale}
           </option>
         ))}
       </select>
