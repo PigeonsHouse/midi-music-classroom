@@ -30,13 +30,9 @@ export const KeyLabelSelector: React.FC<KeyLabelSelectorProps> = ({
   return (
     <div>
       <label>音階名表示：</label>
-      <select onChange={changeLabelType}>
+      <select value={keyLabelType ?? ""} onChange={changeLabelType}>
         {selector.map(({ label, value }) => (
-          <option
-            selected={(keyLabelType ?? "") === value}
-            value={value}
-            key={value}
-          >
+          <option value={value} key={value}>
             {label}
           </option>
         ))}
