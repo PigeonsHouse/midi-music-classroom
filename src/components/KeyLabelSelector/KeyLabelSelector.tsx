@@ -18,17 +18,11 @@ export const KeyLabelSelector: React.FC<KeyLabelSelectorProps> = ({
 }) => {
   const changeLabelType = useCallback(
     (ev: React.ChangeEvent) => {
-      switch ((ev.currentTarget as HTMLSelectElement).selectedIndex) {
-        case 1:
-          setKeyLabelType("italian");
-          break;
-        case 2:
-          setKeyLabelType("american");
-          break;
-        default:
-          setKeyLabelType(undefined);
-          break;
-      }
+      const index = (ev.currentTarget as HTMLSelectElement).selectedIndex;
+      const selectedOptionValue = selector[index].value;
+      setKeyLabelType(
+        selectedOptionValue === "" ? undefined : selectedOptionValue,
+      );
     },
     [setKeyLabelType],
   );
