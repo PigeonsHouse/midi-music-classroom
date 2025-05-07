@@ -14,6 +14,7 @@ import {
   usePushingKeys,
   useSound,
 } from "./hooks";
+import { useScale } from "./hooks/scale";
 import { Title } from "./styled";
 
 export const App = () => {
@@ -24,11 +25,10 @@ export const App = () => {
     setIsSingleOctave,
     isHideInversion,
     setIsHideInversion,
-    scale,
-    setScale,
-    transposeScale,
-    setTransposeScale,
   } = useOptions();
+
+  // スケール関連
+  const { scale, setScale, transposeScale, setTransposeScale } = useScale();
 
   // 押しているキーを中央管理する箇所
   const { pushingKeyNumbers, updatePushingKeyNumbers } =
@@ -62,7 +62,11 @@ export const App = () => {
           isHideInversion={isHideInversion}
           setIsHideInversion={setIsHideInversion}
         />
-        <ScaleDisplay scale={scale} setScale={setScale} />
+        <ScaleDisplay
+          scale={scale}
+          setScale={setScale}
+          disabled={transposeScale !== 0}
+        />
         <TransposeSlider
           transposeScale={transposeScale}
           setTransposeScale={setTransposeScale}

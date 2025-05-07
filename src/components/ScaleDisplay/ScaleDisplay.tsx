@@ -2,11 +2,13 @@ import { useCallback } from "react";
 import { keyLabel, ScaleType } from "../../definitions/keyLabel";
 
 type ScaleDisplayProps = {
+  disabled: boolean;
   scale: ScaleType | undefined;
   setScale: (scale: ScaleType | undefined) => void;
 };
 
 export const ScaleDisplay: React.FC<ScaleDisplayProps> = ({
+  disabled,
   scale,
   setScale,
 }) => {
@@ -22,7 +24,7 @@ export const ScaleDisplay: React.FC<ScaleDisplayProps> = ({
   return (
     <div>
       <label>メジャースケール表示：</label>
-      <select value={scale ?? ""} onChange={onSelectScale}>
+      <select value={scale ?? ""} onChange={onSelectScale} disabled={disabled}>
         <option value="">なし</option>
         {keyLabel.american.map((keyScale) => (
           <option key={keyScale} value={keyScale}>
