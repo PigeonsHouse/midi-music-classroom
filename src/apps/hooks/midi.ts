@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { DeviceMap } from "../../components/MIDIDeviceSelector";
 
 type AddDevice = (dev: MIDIInput) => void;
 
@@ -18,10 +19,6 @@ const initMidiDevice = async (addDevice: AddDevice) => {
     // MIDIのリクエストを禁止したらこっちに流れる
     return;
   }
-};
-
-type DeviceMap = {
-  [key: string]: MIDIInput;
 };
 
 export const useMidiKeyboard = (
