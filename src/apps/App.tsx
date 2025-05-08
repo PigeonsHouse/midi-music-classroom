@@ -15,7 +15,7 @@ import {
   useSound,
 } from "./hooks";
 import { useScale } from "./hooks/scale";
-import { Title } from "./styled";
+import { OptionContainer, OptionTitle, Title } from "./styled";
 
 export const App = () => {
   const {
@@ -46,8 +46,8 @@ export const App = () => {
   return (
     <>
       <Title>鳩屋敷のWebピアノ</Title>
-      <div style={{ textAlign: "center", marginBottom: 12 }}>
-        <div style={{ fontWeight: "bold" }}>オプション</div>
+      <OptionContainer>
+        <OptionTitle>オプション</OptionTitle>
         <MIDIDeviceSelector devices={devices} selectDevice={selectDevice} />
         <KeyLabelSelector
           keyLabelType={keyLabelType}
@@ -71,7 +71,7 @@ export const App = () => {
           transposeScale={transposeScale}
           setTransposeScale={setTransposeScale}
         />
-      </div>
+      </OptionContainer>
       <Piano
         isSingleOctave={isSingleOctave}
         labelType={keyLabelType}
