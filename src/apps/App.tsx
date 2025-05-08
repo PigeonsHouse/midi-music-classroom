@@ -12,9 +12,9 @@ import {
   useMidiKeyboard,
   useOptions,
   usePushingKeys,
+  useScale,
   useSound,
 } from "./hooks";
-import { useScale } from "./hooks/scale";
 import { OptionContainer, OptionTitle, Title } from "./styled";
 
 export const App = () => {
