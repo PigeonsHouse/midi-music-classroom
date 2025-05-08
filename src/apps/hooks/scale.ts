@@ -1,11 +1,18 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { keyLabel, ScaleType } from "../../definitions/keyLabel";
+import { useLocalStorage } from "../../utils/localStorage";
 
 export const useScale = () => {
   // スケール表示関連
-  const [scaleRaw, setScale] = useState<ScaleType | undefined>(undefined);
+  const [scaleRaw, setScale] = useLocalStorage<ScaleType | undefined>(
+    "scaleDisplay",
+    undefined,
+  );
   // トランスポーズ関連
-  const [transposeScale, setTransposeScale] = useState(0);
+  const [transposeScale, setTransposeScale] = useLocalStorage<number>(
+    "transposeScale",
+    0,
+  );
   const scale = useMemo(() => {
     return transposeScale === 0
       ? scaleRaw

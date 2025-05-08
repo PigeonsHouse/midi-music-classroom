@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useLocalStorage } from "../../utils/localStorage";
 
 const AudioList: HTMLAudioElement[] = [];
 
@@ -21,7 +22,7 @@ export const beepNote = (noteNumber: number) => {
 };
 
 export const useSound = () => {
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useLocalStorage<number>("volume", 0.5);
   useEffect(() => {
     setBeepVolume(volume);
   }, [volume]);
