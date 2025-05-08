@@ -86,12 +86,15 @@ export const getChords = (
         // 転回形の表示
         const fractionName =
           isInversion && !isHideInversion ? relativeRootNote : undefined;
-        chordInfo.push({
+        const newChordInfo = {
           key: tempRootNote,
           type: name,
           rootKey: fractionName,
           isInversion,
-        });
+        };
+        isInversion
+          ? chordInfo.push(newChordInfo)
+          : chordInfo.unshift(newChordInfo);
       }
     });
   }
@@ -201,7 +204,7 @@ export const getDegree = (chordInfos: ChordInfo[], scale: number) => {
       chordFunction = "dominant";
     }
 
-    if (info.isInversion) {
+    if (info.rootKey && !info.isInversion) {
       chordFunction = undefined;
     }
 
