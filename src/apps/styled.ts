@@ -30,4 +30,7 @@ export const OptionItemContainer = styled.div`
   max-width: 640px;
   margin: auto;
   padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `;

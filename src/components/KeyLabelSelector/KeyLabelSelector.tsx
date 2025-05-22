@@ -1,8 +1,11 @@
 import { useCallback } from "react";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { LabelType } from "../../definitions/keyLabel";
+import { Container, Label, SelectorContainer } from "./styled";
 
-const selector: { label: string; value: LabelType | "" }[] = [
-  { label: "ラベルなし", value: "" },
+const selector: { label: string; value: LabelType | "NONE" }[] = [
+  { label: "ラベルなし", value: "NONE" },
   { label: "イタリア式 - ドレミ", value: "italian" },
   { label: "アメリカ式 - CDE", value: "american" },
 ];
@@ -17,26 +20,31 @@ export const KeyLabelSelector: React.FC<KeyLabelSelectorProps> = ({
   setKeyLabelType,
 }) => {
   const changeLabelType = useCallback(
-    (ev: React.ChangeEvent) => {
-      const index = (ev.currentTarget as HTMLSelectElement).selectedIndex;
-      const selectedOptionValue = selector[index].value;
+    (ev: SelectChangeEvent) => {
+      const selectedOptionValue = ev.target.value as LabelType | "NONE";
       setKeyLabelType(
-        selectedOptionValue === "" ? undefined : selectedOptionValue,
+        selectedOptionValue === "NONE" ? undefined : selectedOptionValue,
       );
     },
     [setKeyLabelType],
   );
 
   return (
-    <div>
-      <label>音階名表示：</label>
-      <select value={keyLabelType ?? ""} onChange={changeLabelType}>
-        {selector.map(({ label, value }) => (
-          <option value={value} key={value}>
-            {label}
-          </option>
-        ))}
-      </select>
-    </div>
+    <Container>
+      <Label>音階名表示</Label>
+      <SelectorContainer>
+        <Select
+          onChange={changeLabelType}
+          value={keyLabelType ?? "NONE"}
+          size="small"
+        >
+          {selector.map(({ label, value }) => (
+            <MenuItem value={value} key={value}>
+              {label}
+            </MenuItem>
+          ))}
+        </Select>
+      </SelectorContainer>
+    </Container>
   );
 };
