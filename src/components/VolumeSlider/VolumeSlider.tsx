@@ -1,4 +1,6 @@
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
+import { Container, Label, SelectorContainer } from "./styled";
+import Slider from "@mui/material/Slider";
 
 type VolumeSliderProps = {
   volume: number;
@@ -9,29 +11,32 @@ export const VolumeSlider: React.FC<VolumeSliderProps> = ({
   volume,
   setVolume,
 }) => {
-  const volumeLabel = useMemo(() => {
+  const getVolumeLabel = useCallback((volume: number) => {
     return `${Math.round(volume * 100)} %`;
-  }, [volume]);
+  }, []);
   const onSlideVolume = useCallback(
-    (ev: React.ChangeEvent) => {
-      const volume = Number((ev.target as HTMLInputElement).value);
-      setVolume(volume);
+    (_: Event, newValue: number | number[]) => {
+      if (Array.isArray(newValue)) {
+        return;
+      }
+      setVolume(newValue);
     },
     [setVolume],
   );
 
   return (
-    <div>
-      <label>音量</label>
-      <input
-        type="range"
-        value={volume}
-        onChange={onSlideVolume}
-        min="0"
-        max="1"
-        step="0.05"
-      />
-      <label>{volumeLabel}</label>
-    </div>
+    <Container>
+      <Label>音量（{getVolumeLabel(volume)}）</Label>
+      <SelectorContainer>
+        <Slider
+          step={0.05}
+          marks
+          min={0}
+          max={1}
+          value={volume}
+          onChange={onSlideVolume}
+        />
+      </SelectorContainer>
+    </Container>
   );
 };
