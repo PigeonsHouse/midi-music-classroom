@@ -1,4 +1,6 @@
 import { useCallback } from "react";
+import Switch from "@mui/material/Switch";
+import { Container, Label, SelectorContainer } from "../OptionCommon";
 
 type HideInversionProps = {
   isHideInversion: boolean;
@@ -17,13 +19,11 @@ export const HideInversion: React.FC<HideInversionProps> = ({
   );
 
   return (
-    <div>
-      <input
-        type="checkbox"
-        checked={isHideInversion}
-        onChange={onSwitchHideFraction}
-      />
-      <label>転回形の分数表記を省略する</label>
-    </div>
+    <Container>
+      <Label>転回形の分数表記を省略する</Label>
+      <SelectorContainer>
+        <Switch checked={isHideInversion} onChange={onSwitchHideFraction} />
+      </SelectorContainer>
+    </Container>
   );
 };
