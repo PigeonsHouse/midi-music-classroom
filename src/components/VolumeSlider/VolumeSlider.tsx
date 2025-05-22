@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { Container, Label, SelectorContainer } from "./styled";
 import Slider from "@mui/material/Slider";
+import { Container, Label, SelectorContainer } from "../OptionCommon";
 
 type VolumeSliderProps = {
   volume: number;

@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { Container, Label, SelectorContainer } from "./styled";
 import Switch from "@mui/material/Switch";
+import { Container, Label, SelectorContainer } from "../OptionCommon";
 
 type SingleOctave = {
   isSingleOctave: boolean;

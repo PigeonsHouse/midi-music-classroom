@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { Container, Label, SelectorContainer } from "./styled";
+import { Container, Label, SelectorContainer } from "../OptionCommon";
 
 export type DeviceMap = {
   [key: string]: MIDIInput;

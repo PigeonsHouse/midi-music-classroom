@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { LabelType } from "../../definitions/keyLabel";
-import { Container, Label, SelectorContainer } from "./styled";
+import { Container, Label, SelectorContainer } from "../OptionCommon";
 
 const selector: { label: string; value: LabelType | "NONE" }[] = [
   { label: "ラベルなし", value: "NONE" },
