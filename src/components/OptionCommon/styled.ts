@@ -14,5 +14,7 @@ export const Label = styled.div`
 export const SelectorContainer = styled.div`
   width: 60%;
   display: flex;
+  flex-direction: column;
   justify-content: flex-start;
+  align-items: flex-start;
 `;

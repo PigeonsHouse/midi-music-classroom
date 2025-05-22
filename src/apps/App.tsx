@@ -63,6 +63,7 @@ export const App = () => {
       <OptionContainer open={isOpenOption}>
         <OptionTitle onClick={toggleOption}>オプション</OptionTitle>
         <OptionItemContainer>
+          <VolumeSlider volume={volume} setVolume={setVolume} />
           <MIDIDeviceSelector devices={devices} selectDevice={selectDevice} />
           <KeyLabelSelector
             keyLabelType={keyLabelType}
@@ -72,10 +73,13 @@ export const App = () => {
             isSingleOctave={isSingleOctave}
             setIsSingleOctave={setIsSingleOctave}
           />
-          <VolumeSlider volume={volume} setVolume={setVolume} />
           <HideInversion
             isHideInversion={isHideInversion}
             setIsHideInversion={setIsHideInversion}
+          />
+          <TransposeSlider
+            transposeScale={transposeScale}
+            setTransposeScale={setTransposeScale}
           />
           <ScaleDisplay
             isScaleDisplay={isScaleDisplay}
@@ -83,10 +87,6 @@ export const App = () => {
             scale={scale}
             setScale={setScale}
             disabled={transposeScale !== 0}
-          />
-          <TransposeSlider
-            transposeScale={transposeScale}
-            setTransposeScale={setTransposeScale}
           />
         </OptionItemContainer>
       </OptionContainer>

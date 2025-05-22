@@ -1,5 +1,8 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
+import Slider from "@mui/material/Slider";
 import { keyLabel } from "../../definitions/keyLabel";
+import { Container, Label, SelectorContainer } from "../OptionCommon";
+import { Annotation } from "./styled";
 
 type TransposeSliderProps = {
   transposeScale: number;
@@ -10,33 +13,37 @@ export const TransposeSlider: React.FC<TransposeSliderProps> = ({
   transposeScale,
   setTransposeScale,
 }) => {
+  const keyName = useMemo(() => {
+    return keyLabel.american[(12 + transposeScale) % 12];
+  }, [transposeScale]);
   const onSlideTranspose = useCallback(
-    (ev: React.ChangeEvent) => {
-      const volume = Number((ev.target as HTMLInputElement).value);
-      setTransposeScale(volume);
+    (_: Event, newValue: number | number[]) => {
+      if (Array.isArray(newValue)) {
+        return;
+      }
+      setTransposeScale(newValue);
     },
     [setTransposeScale],
   );
 
   return (
-    <div>
-      <label>トランスポーズ</label>
-      <input
-        type="range"
-        value={transposeScale}
-        onChange={onSlideTranspose}
-        min="-6"
-        max="6"
-        step="1"
-      />
-      <div>
-        <label>キー：{keyLabel.american[(12 + transposeScale) % 12]}</label>
-      </div>
-      {transposeScale !== 0 && (
-        <div>
-          <small>※下のキーボードの光る位置もトランスポーズします。</small>
-        </div>
-      )}
-    </div>
+    <Container>
+      <Label>トランスポーズ{transposeScale !== 0 && `（${keyName}）`}</Label>
+      <SelectorContainer>
+        <Slider
+          step={1}
+          marks
+          min={-6}
+          max={6}
+          value={transposeScale}
+          onChange={onSlideTranspose}
+        />
+        {transposeScale !== 0 && (
+          <Annotation>
+            ※下のキーボードの光る位置もトランスポーズします。
+          </Annotation>
+        )}
+      </SelectorContainer>
+    </Container>
   );
 };
