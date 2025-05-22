@@ -35,7 +35,14 @@ export const App = () => {
   } = useOptions();
 
   // スケール関連
-  const { scale, setScale, transposeScale, setTransposeScale } = useScale();
+  const {
+    isScaleDisplay,
+    setIsScaleDisplay,
+    scale,
+    setScale,
+    transposeScale,
+    setTransposeScale,
+  } = useScale();
 
   // 押しているキーを中央管理する箇所
   const { pushingKeyNumbers, updatePushingKeyNumbers } =
@@ -71,6 +78,8 @@ export const App = () => {
             setIsHideInversion={setIsHideInversion}
           />
           <ScaleDisplay
+            isScaleDisplay={isScaleDisplay}
+            setIsScaleDisplay={setIsScaleDisplay}
             scale={scale}
             setScale={setScale}
             disabled={transposeScale !== 0}

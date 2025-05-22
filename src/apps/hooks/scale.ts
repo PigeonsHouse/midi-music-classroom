@@ -4,10 +4,11 @@ import { useLocalStorage } from "../../utils/localStorage";
 
 export const useScale = () => {
   // スケール表示関連
-  const [scaleRaw, setScale] = useLocalStorage<ScaleType | undefined>(
-    "scaleDisplay",
-    undefined,
+  const [isScaleDisplay, setIsScaleDisplay] = useLocalStorage<boolean>(
+    "isScaleDisplay",
+    false,
   );
+  const [scaleRaw, setScale] = useLocalStorage<ScaleType>("scaleDisplay", "C");
   // トランスポーズ関連
   const [transposeScale, setTransposeScale] = useLocalStorage<number>(
     "transposeScale",
@@ -20,6 +21,8 @@ export const useScale = () => {
   }, [transposeScale, scaleRaw]);
 
   return {
+    isScaleDisplay,
+    setIsScaleDisplay,
     scale,
     setScale,
     transposeScale,
