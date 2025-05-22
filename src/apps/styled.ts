@@ -33,4 +33,5 @@ export const OptionItemContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
+  font-size: 14px;
 `;
