@@ -4,12 +4,14 @@ import { getChords, getDegree } from "../../utils/notes";
 import { ChordLabel, Container, InnerContainer } from "./styled";
 
 type ChordInfoProps = {
+  isScaleDisplay: boolean;
   pushingKeyNumbers: number[];
   isHideInversion: boolean;
-  scale?: ScaleType;
+  scale: ScaleType;
 };
 
 export const ChordInfo: React.FC<ChordInfoProps> = ({
+  isScaleDisplay,
   pushingKeyNumbers,
   isHideInversion,
   scale,
@@ -19,10 +21,10 @@ export const ChordInfo: React.FC<ChordInfoProps> = ({
   }, [pushingKeyNumbers, isHideInversion]);
 
   const degrees = useMemo(() => {
-    if (scale === undefined) return undefined;
+    if (!isScaleDisplay) return undefined;
     const scaleOffset = keyLabel.american.indexOf(scale);
     return scaleOffset !== -1 ? getDegree(chordInfos, scaleOffset) : undefined;
-  }, [chordInfos, scale]);
+  }, [chordInfos, scale, isScaleDisplay]);
 
   return (
     <Container>

@@ -98,6 +98,7 @@ export const App = () => {
         scale={scale}
       />
       <ChordInfo
+        isScaleDisplay={isScaleDisplay}
         pushingKeyNumbers={pushingKeyNumbers}
         isHideInversion={isHideInversion}
         scale={scale}

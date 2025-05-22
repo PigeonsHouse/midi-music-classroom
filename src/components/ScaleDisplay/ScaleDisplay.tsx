@@ -39,13 +39,13 @@ export const ScaleDisplay: React.FC<ScaleDisplayProps> = ({
         <Label>メジャースケールを表示する</Label>
         <SelectorContainer>
           <Switch
-            checked={disabled || isScaleDisplay}
+            checked={isScaleDisplay}
             onChange={onSwitchScale}
             disabled={disabled}
           />
         </SelectorContainer>
       </Container>
-      {(isScaleDisplay || disabled) && (
+      {isScaleDisplay && (
         <Container>
           <Label>表示するスケール</Label>
           <SelectorContainer>

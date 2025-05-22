@@ -21,7 +21,7 @@ export const useScale = () => {
   }, [transposeScale, scaleRaw]);
 
   return {
-    isScaleDisplay,
+    isScaleDisplay: isScaleDisplay || transposeScale !== 0,
     setIsScaleDisplay,
     scale,
     setScale,
