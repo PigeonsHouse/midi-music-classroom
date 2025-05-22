@@ -1,4 +1,6 @@
 import { useCallback } from "react";
+import { Container, Label, SelectorContainer } from "./styled";
+import Switch from "@mui/material/Switch";
 
 type SingleOctave = {
   isSingleOctave: boolean;
@@ -17,13 +19,11 @@ export const SingleOctave: React.FC<SingleOctave> = ({
   );
 
   return (
-    <div>
-      <input
-        type="checkbox"
-        checked={isSingleOctave}
-        onChange={onSwitchSingleOctave}
-      />
-      <label>1オクターブに畳む</label>
-    </div>
+    <Container>
+      <Label>1オクターブに畳む</Label>
+      <SelectorContainer>
+        <Switch checked={isSingleOctave} onChange={onSwitchSingleOctave} />
+      </SelectorContainer>
+    </Container>
   );
 };
