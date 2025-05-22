@@ -25,9 +25,7 @@ export const useMidiKeyboard = (
   updatePushingKeyNumbers: (newNoteNumber: number, isOn: boolean) => void,
 ) => {
   const [devices, setDevices] = useState<DeviceMap>({});
-  const [targetDeviceName, setTargetDeviceName] = useState<
-    string | undefined
-  >();
+  const [targetDeviceName, setTargetDeviceName] = useState<string>("NONE");
 
   const addDevice = useCallback(
     (newDevice: MIDIInput) => {
@@ -42,12 +40,12 @@ export const useMidiKeyboard = (
     [setDevices],
   );
   const selectDevice = useCallback(
-    (index: number) => {
-      if (index === 0) {
-        setTargetDeviceName(undefined);
+    (deviceName: string) => {
+      if (Object.keys(devices).includes(deviceName)) {
+        setTargetDeviceName(deviceName);
         return;
       }
-      setTargetDeviceName(Object.keys(devices)[index - 1]);
+      setTargetDeviceName("NONE");
     },
     [devices],
   );
@@ -82,7 +80,7 @@ export const useMidiKeyboard = (
   }, [addDevice]);
   useEffect(() => {
     // ターゲットのデバイスが更新されたらcallbackを登録
-    if (targetDeviceName === undefined) return;
+    if (targetDeviceName === "NONE") return;
     const device = devices[targetDeviceName];
     device.addEventListener("midimessage", midiCallback, false);
     // callbackが重複しないよう、useEffectが更新される際にEventListenerを削除する

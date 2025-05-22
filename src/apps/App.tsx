@@ -15,7 +15,12 @@ import {
   useScale,
   useSound,
 } from "./hooks";
-import { OptionContainer, OptionTitle, Title } from "./styled";
+import {
+  OptionContainer,
+  OptionItemContainer,
+  OptionTitle,
+  Title,
+} from "./styled";
 
 export const App = () => {
   const {
@@ -50,29 +55,31 @@ export const App = () => {
       <Title>鳩屋敷のWebピアノ</Title>
       <OptionContainer open={isOpenOption}>
         <OptionTitle onClick={toggleOption}>オプション</OptionTitle>
-        <MIDIDeviceSelector devices={devices} selectDevice={selectDevice} />
-        <KeyLabelSelector
-          keyLabelType={keyLabelType}
-          setKeyLabelType={setKeyLabelType}
-        />
-        <SingleOctave
-          isSingleOctave={isSingleOctave}
-          setIsSingleOctave={setIsSingleOctave}
-        />
-        <VolumeSlider volume={volume} setVolume={setVolume} />
-        <HideInversion
-          isHideInversion={isHideInversion}
-          setIsHideInversion={setIsHideInversion}
-        />
-        <ScaleDisplay
-          scale={scale}
-          setScale={setScale}
-          disabled={transposeScale !== 0}
-        />
-        <TransposeSlider
-          transposeScale={transposeScale}
-          setTransposeScale={setTransposeScale}
-        />
+        <OptionItemContainer>
+          <MIDIDeviceSelector devices={devices} selectDevice={selectDevice} />
+          <KeyLabelSelector
+            keyLabelType={keyLabelType}
+            setKeyLabelType={setKeyLabelType}
+          />
+          <SingleOctave
+            isSingleOctave={isSingleOctave}
+            setIsSingleOctave={setIsSingleOctave}
+          />
+          <VolumeSlider volume={volume} setVolume={setVolume} />
+          <HideInversion
+            isHideInversion={isHideInversion}
+            setIsHideInversion={setIsHideInversion}
+          />
+          <ScaleDisplay
+            scale={scale}
+            setScale={setScale}
+            disabled={transposeScale !== 0}
+          />
+          <TransposeSlider
+            transposeScale={transposeScale}
+            setTransposeScale={setTransposeScale}
+          />
+        </OptionItemContainer>
       </OptionContainer>
       <Piano
         isSingleOctave={isSingleOctave}

@@ -1,4 +1,7 @@
 import { useCallback } from "react";
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { Container, Label, SelectorContainer } from "./styled";
 
 export type DeviceMap = {
   [key: string]: MIDIInput;
@@ -6,7 +9,7 @@ export type DeviceMap = {
 
 type MIDIDeviceSelectorProps = {
   devices: DeviceMap;
-  selectDevice: (index: number) => void;
+  selectDevice: (deviceName: string) => void;
 };
 
 export const MIDIDeviceSelector: React.FC<MIDIDeviceSelectorProps> = ({
@@ -14,22 +17,25 @@ export const MIDIDeviceSelector: React.FC<MIDIDeviceSelectorProps> = ({
   selectDevice,
 }) => {
   const onSelectDevice = useCallback(
-    (ev: React.ChangeEvent) => {
-      const idx = (ev.currentTarget as HTMLSelectElement).selectedIndex;
-      selectDevice(idx);
+    (ev: SelectChangeEvent) => {
+      selectDevice(ev.target.value);
     },
     [selectDevice],
   );
 
   return (
-    <div>
-      <label>MIDIデバイス：</label>
-      <select onChange={onSelectDevice}>
-        <option>なし</option>
-        {Object.keys(devices).map((deviceName) => (
-          <option key={deviceName}>{deviceName}</option>
-        ))}
-      </select>
-    </div>
+    <Container>
+      <Label>MIDIデバイス</Label>
+      <SelectorContainer>
+        <Select onChange={onSelectDevice} size="small" defaultValue="NONE">
+          <MenuItem value="NONE">なし</MenuItem>
+          {Object.keys(devices).map((deviceName) => (
+            <MenuItem key={deviceName} value={deviceName}>
+              {deviceName}
+            </MenuItem>
+          ))}
+        </Select>
+      </SelectorContainer>
+    </Container>
   );
 };

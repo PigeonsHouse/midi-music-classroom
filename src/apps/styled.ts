@@ -25,3 +25,9 @@ export const OptionTitle = styled.summary`
     background-color: ${appColor.highlightOptionTitleBase};
   }
 `;
+
+export const OptionItemContainer = styled.div`
+  max-width: 640px;
+  margin: auto;
+  padding: 8px 0;
+`;
