@@ -1,7 +1,21 @@
+import React, { useCallback } from "react";
 import { type LabelType } from "../../definitions/keyLabel";
 import { useLocalStorage } from "../../utils/localStorage";
 
 export const useOptions = () => {
+  // オプションコンテナを開くか
+  const [isOpenOption, setIsOpenOption] = useLocalStorage<boolean>(
+    "isOpenOptionContainer",
+    false,
+  );
+  const toggleOption = useCallback(
+    (e: React.MouseEvent<HTMLDetailsElement>) => {
+      e.preventDefault();
+      setIsOpenOption(!isOpenOption);
+    },
+    [isOpenOption, setIsOpenOption],
+  );
+
   // キーに表示するラベル関連
   const [keyLabelType, setKeyLabelType] = useLocalStorage<
     LabelType | undefined
@@ -18,6 +32,8 @@ export const useOptions = () => {
   );
 
   return {
+    isOpenOption,
+    toggleOption,
     keyLabelType,
     setKeyLabelType,
     isSingleOctave,

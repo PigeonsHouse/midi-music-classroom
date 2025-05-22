@@ -19,6 +19,8 @@ import { OptionContainer, OptionTitle, Title } from "./styled";
 
 export const App = () => {
   const {
+    isOpenOption,
+    toggleOption,
     keyLabelType,
     setKeyLabelType,
     isSingleOctave,
@@ -46,8 +48,8 @@ export const App = () => {
   return (
     <>
       <Title>鳩屋敷のWebピアノ</Title>
-      <OptionContainer>
-        <OptionTitle>オプション</OptionTitle>
+      <OptionContainer open={isOpenOption}>
+        <OptionTitle onClick={toggleOption}>オプション</OptionTitle>
         <MIDIDeviceSelector devices={devices} selectDevice={selectDevice} />
         <KeyLabelSelector
           keyLabelType={keyLabelType}

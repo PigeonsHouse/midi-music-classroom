@@ -1,3 +1,10 @@
+export const appColor = {
+  option: "#D6D6D6",
+  optionTitleBase: "#626262",
+  highlightOptionTitleBase: "#898989",
+  optionTitle: "#FFFFFF",
+};
+
 export const pianoColor = {
   whiteKey: "#F2F2FD",
   blackKey: "#2C2C2C",
