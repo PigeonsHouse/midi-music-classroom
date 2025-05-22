@@ -91,6 +91,7 @@ export const App = () => {
         </OptionItemContainer>
       </OptionContainer>
       <Piano
+        isScaleDisplay={isScaleDisplay}
         isSingleOctave={isSingleOctave}
         labelType={keyLabelType}
         pushingKeyNumbers={pushingKeyNumbers}

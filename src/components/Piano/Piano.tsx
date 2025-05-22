@@ -13,19 +13,23 @@ import {
 } from "./styled";
 
 type PianoProps = {
+  isScaleDisplay: boolean;
   isSingleOctave: boolean;
   labelType?: LabelType;
   pushingKeyNumbers: number[];
-  scale?: ScaleType;
+  scale: ScaleType;
 };
 
 export const Piano: React.FC<PianoProps> = ({
+  isScaleDisplay,
   isSingleOctave,
   labelType,
   pushingKeyNumbers,
   scale,
 }) => {
-  const scaleOffset = scale ? keyLabel.american.indexOf(scale) : undefined;
+  const scaleOffset = isScaleDisplay
+    ? keyLabel.american.indexOf(scale)
+    : undefined;
   const label = useMemo(() => {
     return labelType ? keyLabel[labelType] : [];
   }, [labelType]);
@@ -93,7 +97,7 @@ export const Piano: React.FC<PianoProps> = ({
                   <KeyElement className={keyClassName}>
                     {label[index]}
                   </KeyElement>
-                  {scale && (
+                  {isScaleDisplay && (
                     <Ruler className={rulerClassName}>{rulerLabel}</Ruler>
                   )}
                 </Fragment>
