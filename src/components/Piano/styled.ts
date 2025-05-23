@@ -9,8 +9,8 @@ const rulerHeight = 20;
 
 export const KeyboardRoot = styled.div`
   display: flex;
-  justify-content: center;
   padding-top: ${rulerHeight}px;
+  margin-bottom: 12px;
 `;
 
 export const KeyboardOctaveRoot = styled.div`

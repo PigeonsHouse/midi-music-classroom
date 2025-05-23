@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { chordColor } from "../../definitions/colors";
+import { appColor, chordColor } from "../../definitions/colors";
 
 export const Container = styled.div`
   display: flex;
@@ -8,10 +8,14 @@ export const Container = styled.div`
 `;
 
 export const InnerContainer = styled.div`
-  min-width: 30%;
+  min-width: 40%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: ${appColor.option};
+  height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 export const ChordLabel = styled.div`

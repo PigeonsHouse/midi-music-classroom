@@ -76,35 +76,29 @@ export const Piano: React.FC<PianoProps> = ({
     (nth?: number) => {
       const octaveOffset = nth === undefined ? 0 : (nth + 2) * 12;
       return (
-        <>
-          <KeyboardOctaveRoot>
-            {octaveMaterial.map((KeyElement, index) => {
-              const keyClassName = cx(
-                KeyElement === BlackKey
-                  ? absoluteKeyPosition(index)
-                  : undefined,
-                isPushed(octaveOffset + index),
-              );
-              const rulerType = getRulerType(index);
-              const rulerClassName = cx(
-                absoluteKeyPosition(index),
-                rulerType,
-                isPushed(octaveOffset + index),
-              );
-              const rulerLabel = rulerType === "root" ? "R" : undefined;
-              return (
-                <Fragment key={index}>
-                  <KeyElement className={keyClassName}>
-                    {label[index]}
-                  </KeyElement>
-                  {isScaleDisplay && (
-                    <Ruler className={rulerClassName}>{rulerLabel}</Ruler>
-                  )}
-                </Fragment>
-              );
-            })}
-          </KeyboardOctaveRoot>
-        </>
+        <KeyboardOctaveRoot>
+          {octaveMaterial.map((KeyElement, index) => {
+            const keyClassName = cx(
+              KeyElement === BlackKey ? absoluteKeyPosition(index) : undefined,
+              isPushed(octaveOffset + index),
+            );
+            const rulerType = getRulerType(index);
+            const rulerClassName = cx(
+              absoluteKeyPosition(index),
+              rulerType,
+              isPushed(octaveOffset + index),
+            );
+            const rulerLabel = rulerType === "root" ? "R" : undefined;
+            return (
+              <Fragment key={index}>
+                <KeyElement className={keyClassName}>{label[index]}</KeyElement>
+                {isScaleDisplay && (
+                  <Ruler className={rulerClassName}>{rulerLabel}</Ruler>
+                )}
+              </Fragment>
+            );
+          })}
+        </KeyboardOctaveRoot>
       );
     },
     [getRulerType, isPushed, label, octaveMaterial, scale],

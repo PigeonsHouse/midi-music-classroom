@@ -1,7 +1,7 @@
 export const appColor = {
   option: "#D6D6D6",
-  optionTitleBase: "#626262",
-  highlightOptionTitleBase: "#898989",
+  optionTitleBase: "#404040",
+  highlightOptionTitleBase: "#626262",
   optionTitle: "#FFFFFF",
 };
 

@@ -36,7 +36,7 @@ export const ScaleDisplay: React.FC<ScaleDisplayProps> = ({
   return (
     <>
       <Container>
-        <Label>メジャースケールを表示する</Label>
+        <Label>メジャースケール・ディグリーを表示する</Label>
         <SelectorContainer>
           <Switch
             checked={isScaleDisplay}
