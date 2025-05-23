@@ -2,8 +2,10 @@ import { css } from "@emotion/css";
 import styled from "@emotion/styled";
 import { pianoColor, rulerColor } from "../../definitions/colors";
 
-const pianoWidth = 20;
+const pianoWidth = 16;
+const bigPianoWidth = 28;
 const pianoHeight = 160;
+const bigPianoHeight = 200;
 const borderWidth = 3;
 const rulerHeight = 20;
 
@@ -13,11 +15,11 @@ export const KeyboardRoot = styled.div`
   margin-bottom: 12px;
 `;
 
-export const KeyboardOctaveRoot = styled.div`
+export const KeyboardOctaveRoot = styled.div<{ isBigKey: boolean }>`
   position: relative;
-  height: ${pianoHeight}px;
+  height: ${(props) => (props.isBigKey ? bigPianoHeight : pianoHeight)}px;
   display: flex;
-  width: ${pianoWidth * 12}px;
+  width: ${(props) => (props.isBigKey ? bigPianoWidth : pianoWidth) * 12}px;
   font-size: 12px;
   &:last-child {
     border-right: ${borderWidth}px solid ${pianoColor.blackKey};
@@ -38,17 +40,17 @@ const WhiteKeyStyle = `
   }
 `;
 
-export const ThreeWhiteKey = styled.div`
+export const ThreeWhiteKey = styled.div<{ isBigKey: boolean }>`
   ${WhiteKeyStyle}
-  width: ${(pianoWidth * 5) / 3}px;
+  width: ${(props) => ((props.isBigKey ? bigPianoWidth : pianoWidth) * 5) / 3}px;
 `;
 
-export const FourWhiteKey = styled.div`
+export const FourWhiteKey = styled.div<{ isBigKey: boolean }>`
   ${WhiteKeyStyle}
-  width: ${(pianoWidth * 7) / 4}px;
+  width: ${(props) => ((props.isBigKey ? bigPianoWidth : pianoWidth) * 7) / 4}px;
 `;
 
-export const BlackKey = styled.div`
+export const BlackKey = styled.div<{ isBigKey: boolean }>`
   height: 64%;
   background-color: ${pianoColor.blackKey};
   color: ${pianoColor.whiteKey};
@@ -56,7 +58,7 @@ export const BlackKey = styled.div`
   border: ${borderWidth}px solid ${pianoColor.blackKey};
   position: absolute;
   top: 0;
-  width: ${pianoWidth}px;
+  width: ${(props) => (props.isBigKey ? bigPianoWidth : pianoWidth)}px;
   display: flex;
   justify-content:  center;
   align-items: end;
@@ -66,18 +68,18 @@ export const BlackKey = styled.div`
   }
 `;
 
-export const absoluteKeyPosition = (index: number) => css`
-  left: ${pianoWidth * index}px;
+export const absoluteKeyPosition = (index: number, isBigKey: boolean) => css`
+  left: ${(isBigKey ? bigPianoWidth : pianoWidth) * index}px;
 `;
 
-export const Ruler = styled.div`
+export const Ruler = styled.div<{ isBigKey: boolean }>`
   box-sizing: border-box;
   position: absolute;
   color: ${rulerColor.label};
   background-color: ${rulerColor.nonDiatonic};
   top: ${-rulerHeight * 0.4}px;
   height: ${rulerHeight * 0.4}px;
-  width: ${pianoWidth}px;
+  width: ${(props) => (props.isBigKey ? bigPianoWidth : pianoWidth)}px;
   border-left: 1px solid ${rulerColor.outline};
   &.pushed {
     background-color: ${rulerColor.pushedNonDiatonic};
@@ -100,28 +102,3 @@ export const Ruler = styled.div`
     }
   }
 `;
-
-// export const DoBlackKey = styled.div`
-//   ${BlackKeyStyle}
-//   left: ${pianoWidth}px;
-// `;
-
-// export const ReBlackKey = styled.div`
-//   ${BlackKeyStyle}
-//   left: ${pianoWidth * 3}px;
-// `;
-
-// export const FaBlackKey = styled.div`
-//   ${BlackKeyStyle}
-//   left: ${pianoWidth * 6}px;
-// `;
-
-// export const SoBlackKey = styled.div`
-//   ${BlackKeyStyle}
-//   left: ${pianoWidth * 8}px;
-// `;
-
-// export const LaBlackKey = styled.div`
-//   ${BlackKeyStyle}
-//   left: ${pianoWidth * 10}px;
-// `;

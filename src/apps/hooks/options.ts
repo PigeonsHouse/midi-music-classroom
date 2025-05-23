@@ -30,6 +30,7 @@ export const useOptions = () => {
     "isHideInversion",
     false,
   );
+  const [isBigKey, setIsBigKey] = useLocalStorage<boolean>("isBigKey", false);
 
   return {
     isOpenOption,
@@ -40,5 +41,7 @@ export const useOptions = () => {
     setIsSingleOctave,
     isHideInversion,
     setIsHideInversion,
+    isBigKey,
+    setIsBigKey,
   };
 };

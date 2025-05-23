@@ -13,6 +13,7 @@ import {
 } from "./styled";
 
 type PianoProps = {
+  isBigKey: boolean;
   isScaleDisplay: boolean;
   isSingleOctave: boolean;
   labelType?: LabelType;
@@ -22,6 +23,7 @@ type PianoProps = {
 };
 
 export const Piano: React.FC<PianoProps> = ({
+  isBigKey,
   isScaleDisplay,
   isSingleOctave,
   labelType,
@@ -78,40 +80,55 @@ export const Piano: React.FC<PianoProps> = ({
     (nth?: number) => {
       const octaveOffset = nth === undefined ? 0 : (nth + 2) * 12;
       return (
-        <KeyboardOctaveRoot>
+        <KeyboardOctaveRoot isBigKey={isBigKey}>
           {octaveMaterial.map((KeyElement, index) => {
             const keyClassName = cx(
-              KeyElement === BlackKey ? absoluteKeyPosition(index) : undefined,
+              KeyElement === BlackKey
+                ? absoluteKeyPosition(index, isBigKey)
+                : undefined,
               isPushed(octaveOffset + index),
             );
             const rulerType = getRulerType(index);
             const rulerClassName = cx(
-              absoluteKeyPosition(index),
+              absoluteKeyPosition(index, isBigKey),
               rulerType,
               isPushed(octaveOffset + index),
             );
             const rulerLabel = rulerType === "root" ? "R" : undefined;
+            const pushKey = () =>
+              updatePushingKeyNumbers(octaveOffset + index, true);
+            const releaseKey = () =>
+              updatePushingKeyNumbers(octaveOffset + index, false);
+            const touchMove = (e: React.TouchEvent) => {
+              e.preventDefault();
+              const touch = e.touches[0];
+              const target = document.elementFromPoint(
+                touch.clientX,
+                touch.clientY,
+              );
+              if (target && target.classList.contains("key")) {
+                pushKey();
+              }
+            };
+
             return (
               <Fragment key={index}>
                 <KeyElement
                   className={keyClassName}
-                  onMouseDown={() => {
-                    updatePushingKeyNumbers(octaveOffset + index, true);
-                  }}
-                  onMouseUp={() => {
-                    updatePushingKeyNumbers(octaveOffset + index, false);
-                  }}
-                  onMouseLeave={() => {
-                    updatePushingKeyNumbers(octaveOffset + index, false);
-                  }}
-                  onTouchStart={() => {
-                    updatePushingKeyNumbers(octaveOffset + index, true);
-                  }}
+                  isBigKey={isBigKey}
+                  onMouseDown={pushKey}
+                  onMouseUp={releaseKey}
+                  onMouseLeave={releaseKey}
+                  onTouchStart={pushKey}
+                  onTouchEnd={releaseKey}
+                  onTouchMove={touchMove}
                 >
                   {label[index]}
                 </KeyElement>
                 {isScaleDisplay && (
-                  <Ruler className={rulerClassName}>{rulerLabel}</Ruler>
+                  <Ruler className={rulerClassName} isBigKey={isBigKey}>
+                    {rulerLabel}
+                  </Ruler>
                 )}
               </Fragment>
             );
@@ -119,7 +136,17 @@ export const Piano: React.FC<PianoProps> = ({
         </KeyboardOctaveRoot>
       );
     },
-    [getRulerType, isPushed, label, octaveMaterial, scale],
+    [
+      getRulerType,
+      isPushed,
+      label,
+      octaveMaterial,
+      scale,
+      isScaleDisplay,
+      isBigKey,
+      fixedPushingKeyNumbers,
+      updatePushingKeyNumbers,
+    ],
   );
 
   return (
