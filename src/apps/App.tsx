@@ -109,6 +109,7 @@ export const App = () => {
             labelType={keyLabelType}
             pushingKeyNumbers={pushingKeyNumbers}
             scale={scale}
+            updatePushingKeyNumbers={updatePushingKeyNumbers}
           />
         </PianoWrapper>
       </PianoScroller>

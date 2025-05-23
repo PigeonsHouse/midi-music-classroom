@@ -2,7 +2,7 @@ import { css } from "@emotion/css";
 import styled from "@emotion/styled";
 import { pianoColor, rulerColor } from "../../definitions/colors";
 
-const pianoWidth = 16;
+const pianoWidth = 20;
 const pianoHeight = 160;
 const borderWidth = 3;
 const rulerHeight = 20;

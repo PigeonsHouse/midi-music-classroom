@@ -32,8 +32,10 @@ export const OptionTitle = styled.summary`
   font-weight: bold;
   background-color: ${appColor.optionTitleBase};
   color: ${appColor.optionTitle};
-  &:hover {
-    background-color: ${appColor.highlightOptionTitleBase};
+  @media (hover: hover) {
+    &:hover {
+      background-color: ${appColor.highlightOptionTitleBase};
+    }
   }
   padding: 4px 0;
 `;

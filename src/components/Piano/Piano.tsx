@@ -18,6 +18,7 @@ type PianoProps = {
   labelType?: LabelType;
   pushingKeyNumbers: number[];
   scale: ScaleType;
+  updatePushingKeyNumbers: (keyNumber: number, isOn: boolean) => void;
 };
 
 export const Piano: React.FC<PianoProps> = ({
@@ -26,6 +27,7 @@ export const Piano: React.FC<PianoProps> = ({
   labelType,
   pushingKeyNumbers,
   scale,
+  updatePushingKeyNumbers,
 }) => {
   const scaleOffset = isScaleDisplay
     ? keyLabel.american.indexOf(scale)
@@ -91,7 +93,23 @@ export const Piano: React.FC<PianoProps> = ({
             const rulerLabel = rulerType === "root" ? "R" : undefined;
             return (
               <Fragment key={index}>
-                <KeyElement className={keyClassName}>{label[index]}</KeyElement>
+                <KeyElement
+                  className={keyClassName}
+                  onMouseDown={() => {
+                    updatePushingKeyNumbers(octaveOffset + index, true);
+                  }}
+                  onMouseUp={() => {
+                    updatePushingKeyNumbers(octaveOffset + index, false);
+                  }}
+                  onMouseLeave={() => {
+                    updatePushingKeyNumbers(octaveOffset + index, false);
+                  }}
+                  onTouchStart={() => {
+                    updatePushingKeyNumbers(octaveOffset + index, true);
+                  }}
+                >
+                  {label[index]}
+                </KeyElement>
                 {isScaleDisplay && (
                   <Ruler className={rulerClassName}>{rulerLabel}</Ruler>
                 )}
