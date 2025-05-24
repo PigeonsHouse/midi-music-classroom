@@ -1,5 +1,5 @@
-import { cx } from "@emotion/css";
 import React, { Fragment, useCallback, useMemo } from "react";
+import { cx } from "@emotion/css";
 import { LabelType, ScaleType, keyLabel } from "../../definitions/keyLabel";
 import { clusteringNotes } from "../../utils/notes";
 import {
@@ -96,28 +96,14 @@ export const Piano: React.FC<PianoProps> = ({
               updatePushingKeyNumbers(octaveOffset + index, true);
             const releaseKey = () =>
               updatePushingKeyNumbers(octaveOffset + index, false);
-            const touchMove = (e: React.TouchEvent) => {
-              e.preventDefault();
-              const touch = e.touches[0];
-              const target = document.elementFromPoint(
-                touch.clientX,
-                touch.clientY,
-              );
-              if (target && target.classList.contains("key")) {
-                pushKey();
-              }
-            };
 
             return (
               <Fragment key={index}>
                 <KeyElement
                   className={keyClassName}
-                  onMouseDown={pushKey}
-                  onMouseUp={releaseKey}
-                  onMouseLeave={releaseKey}
-                  onTouchStart={pushKey}
-                  onTouchEnd={releaseKey}
-                  onTouchMove={touchMove}
+                  onPointerDown={pushKey}
+                  onPointerUp={releaseKey}
+                  onPointerLeave={releaseKey}
                 >
                   {label[index]}
                 </KeyElement>
