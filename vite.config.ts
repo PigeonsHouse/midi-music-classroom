@@ -3,9 +3,9 @@ import react from "@vitejs/plugin-react";
 import { VitePWA, VitePWAOptions } from "vite-plugin-pwa";
 
 const pwaOptions: Partial<VitePWAOptions> = {
-  devOptions: { enabled: true },
   manifest: {
-    name: "Webピアノ",
+    name: "鳩屋敷のWebピアノ",
+    short_name: "Webピアノ",
     icons: [
       {
         sizes: "192x192",
@@ -14,9 +14,8 @@ const pwaOptions: Partial<VitePWAOptions> = {
       },
     ],
     id: "/",
-    start_url: "/",
+    start_url: ".",
     display: "standalone",
-    orientation: "landscape",
     theme_color: "#00D390",
     background_color: "#FFFFFF",
     description:
