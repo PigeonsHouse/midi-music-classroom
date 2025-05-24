@@ -78,7 +78,8 @@ export const Piano: React.FC<PianoProps> = ({
   );
   const octaveElement = useCallback(
     (nth?: number) => {
-      const octaveOffset = nth === undefined ? 0 : (nth + 2) * 12;
+      const isSingle = nth === undefined;
+      const octaveOffset = (isSingle ? 5 : nth + 2) * 12;
       return (
         <KeyboardOctaveRoot isBigKey={isBigKey}>
           {octaveMaterial.map((KeyElement, index) => {
@@ -86,13 +87,13 @@ export const Piano: React.FC<PianoProps> = ({
               KeyElement === BlackKey
                 ? absoluteKeyPosition(index, isBigKey)
                 : undefined,
-              isPushed(octaveOffset + index),
+              isPushed(isSingle ? index : octaveOffset + index),
             );
             const rulerType = getRulerType(index);
             const rulerClassName = cx(
               absoluteKeyPosition(index, isBigKey),
               rulerType,
-              isPushed(octaveOffset + index),
+              isPushed(isSingle ? index : octaveOffset + index),
             );
             const rulerLabel = rulerType === "root" ? "R" : undefined;
             const pushKey = () =>
