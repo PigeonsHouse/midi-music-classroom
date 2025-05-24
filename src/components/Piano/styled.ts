@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { pianoColor, rulerColor } from "../../definitions/colors";
 
 const pianoWidth = 16;
-const bigPianoWidth = 28;
+const bigPianoWidth = 32;
 const pianoHeight = 160;
 const bigPianoHeight = 200;
 const borderWidth = 3;
