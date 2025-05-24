@@ -13,7 +13,6 @@ import {
 } from "./styled";
 
 type PianoProps = {
-  isBigKey: boolean;
   isScaleDisplay: boolean;
   isSingleOctave: boolean;
   labelType?: LabelType;
@@ -23,7 +22,6 @@ type PianoProps = {
 };
 
 export const Piano: React.FC<PianoProps> = ({
-  isBigKey,
   isScaleDisplay,
   isSingleOctave,
   labelType,
@@ -81,17 +79,15 @@ export const Piano: React.FC<PianoProps> = ({
       const isSingle = nth === undefined;
       const octaveOffset = (isSingle ? 5 : nth + 2) * 12;
       return (
-        <KeyboardOctaveRoot isBigKey={isBigKey}>
+        <KeyboardOctaveRoot>
           {octaveMaterial.map((KeyElement, index) => {
             const keyClassName = cx(
-              KeyElement === BlackKey
-                ? absoluteKeyPosition(index, isBigKey)
-                : undefined,
+              KeyElement === BlackKey ? absoluteKeyPosition(index) : undefined,
               isPushed(isSingle ? index : octaveOffset + index),
             );
             const rulerType = getRulerType(index);
             const rulerClassName = cx(
-              absoluteKeyPosition(index, isBigKey),
+              absoluteKeyPosition(index),
               rulerType,
               isPushed(isSingle ? index : octaveOffset + index),
             );
@@ -116,7 +112,6 @@ export const Piano: React.FC<PianoProps> = ({
               <Fragment key={index}>
                 <KeyElement
                   className={keyClassName}
-                  isBigKey={isBigKey}
                   onMouseDown={pushKey}
                   onMouseUp={releaseKey}
                   onMouseLeave={releaseKey}
@@ -127,9 +122,7 @@ export const Piano: React.FC<PianoProps> = ({
                   {label[index]}
                 </KeyElement>
                 {isScaleDisplay && (
-                  <Ruler className={rulerClassName} isBigKey={isBigKey}>
-                    {rulerLabel}
-                  </Ruler>
+                  <Ruler className={rulerClassName}>{rulerLabel}</Ruler>
                 )}
               </Fragment>
             );
@@ -144,7 +137,6 @@ export const Piano: React.FC<PianoProps> = ({
       octaveMaterial,
       scale,
       isScaleDisplay,
-      isBigKey,
       fixedPushingKeyNumbers,
       updatePushingKeyNumbers,
     ],

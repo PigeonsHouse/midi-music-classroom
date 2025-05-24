@@ -23,10 +23,14 @@ export const ScrollBarButton = styled.button`
   &:hover {
     background-color: ${scrollBarColor.buttonHover};
   }
+  @media (pointer: coarse) {
+    height: 44px;
+    width: 44px;
+  }
 `;
 
 export const ScrollBarSliderStyle = css`
   && {
-  margin: 0 16px;
+    margin: 0 16px;
   }
 `;

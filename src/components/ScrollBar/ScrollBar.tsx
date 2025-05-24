@@ -43,6 +43,7 @@ export const ScrollBar: React.FC<ScrollBarProps> = ({
         min={0}
         max={maxScrollValue}
         onChange={handleScroll}
+        track={false}
       />
       <ScrollBarButton onClick={handleScrollRight}>▶︎</ScrollBarButton>
     </ScrollBarContainer>

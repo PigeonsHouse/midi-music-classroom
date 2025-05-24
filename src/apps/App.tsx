@@ -1,7 +1,6 @@
 import { ChordInfo } from "../components/ChordInfo";
 import { HideInversion } from "../components/HideInversion";
 import { KeyLabelSelector } from "../components/KeyLabelSelector";
-import { KeySizeSelector } from "../components/KeySizeSelector";
 import { MIDIDeviceSelector } from "../components/MIDIDeviceSelector";
 import { Piano } from "../components/Piano";
 import { ScaleDisplay } from "../components/ScaleDisplay";
@@ -39,8 +38,6 @@ export const App = () => {
     setIsSingleOctave,
     isHideInversion,
     setIsHideInversion,
-    isBigKey,
-    setIsBigKey,
   } = useOptions();
 
   // スケール関連
@@ -88,7 +85,6 @@ export const App = () => {
                 devices={devices}
                 selectDevice={selectDevice}
               />
-              <KeySizeSelector isBigKey={isBigKey} setIsBigKey={setIsBigKey} />
               <KeyLabelSelector
                 keyLabelType={keyLabelType}
                 setKeyLabelType={setKeyLabelType}
@@ -119,7 +115,6 @@ export const App = () => {
       <PianoScroller ref={scrollRef}>
         <PianoWrapper>
           <Piano
-            isBigKey={isBigKey}
             isScaleDisplay={isScaleDisplay}
             isSingleOctave={isSingleOctave}
             labelType={keyLabelType}

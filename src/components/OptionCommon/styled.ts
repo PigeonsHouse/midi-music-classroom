@@ -9,6 +9,7 @@ export const Label = styled.div`
   width: 40%;
   display: flex;
   justify-content: flex-start;
+  text-align: left;
 `;
 
 export const SelectorContainer = styled.div`
