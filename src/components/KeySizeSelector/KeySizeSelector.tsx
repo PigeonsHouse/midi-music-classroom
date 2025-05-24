@@ -7,10 +7,10 @@ type KeySizeSelectorProps = {
   setIsBigKey: (isBigKey: boolean) => void;
 };
 
-export const KeySizeSelector = ({
+export const KeySizeSelector: React.FC<KeySizeSelectorProps> = ({
   isBigKey,
   setIsBigKey,
-}: KeySizeSelectorProps) => {
+}) => {
   const onSwitchKeySize = useCallback(
     (ev: React.ChangeEvent) => {
       setIsBigKey((ev.currentTarget as HTMLInputElement).checked);

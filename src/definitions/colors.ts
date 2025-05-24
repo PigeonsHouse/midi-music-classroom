@@ -12,6 +12,13 @@ export const pianoColor = {
   pushedLabel: "#FFFFFF",
 };
 
+export const scrollBarColor = {
+  background: "#D6D6D6",
+  button: "#6C6C6C",
+  buttonText: "#FFFFFF",
+  buttonHover: "#A0A0A0",
+};
+
 export const rulerColor = {
   root: "#8C8C8C",
   pushedRoot: "#3CDDAA",

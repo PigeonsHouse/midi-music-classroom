@@ -51,8 +51,9 @@ export const OptionItemContainer = styled.div`
 `;
 
 export const PianoScroller = styled.div`
-  overflow-x: auto;
+  overflow-x: hidden;
   text-align: center;
+  scrollbar-width: none;
 `;
 
 export const PianoWrapper = styled.div`

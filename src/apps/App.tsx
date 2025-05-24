@@ -5,6 +5,7 @@ import { KeySizeSelector } from "../components/KeySizeSelector";
 import { MIDIDeviceSelector } from "../components/MIDIDeviceSelector";
 import { Piano } from "../components/Piano";
 import { ScaleDisplay } from "../components/ScaleDisplay";
+import { ScrollBar } from "../components/ScrollBar";
 import { SingleOctave } from "../components/SingleOctave";
 import { TransposeSlider } from "../components/TransposeSlider";
 import { VolumeSlider } from "../components/VolumeSlider";
@@ -14,6 +15,7 @@ import {
   useOptions,
   usePushingKeys,
   useScale,
+  useScrollBar,
   useSound,
 } from "./hooks";
 import {
@@ -54,6 +56,15 @@ export const App = () => {
   // 押しているキーを中央管理する箇所
   const { pushingKeyNumbers, updatePushingKeyNumbers } =
     usePushingKeys(transposeScale);
+
+  // スクロールバーの表示関連
+  const {
+    scrollRef,
+    isViewScrollBar,
+    scrollValue,
+    setScrollValue,
+    maxScrollValue,
+  } = useScrollBar();
 
   // MIDIキーボード関連
   const { devices, selectDevice } = useMidiKeyboard(updatePushingKeyNumbers);
@@ -105,7 +116,7 @@ export const App = () => {
           </OptionContainerScroller>
         </OptionContainer>
       </OptionContainerWrapper>
-      <PianoScroller>
+      <PianoScroller ref={scrollRef}>
         <PianoWrapper>
           <Piano
             isBigKey={isBigKey}
@@ -118,6 +129,13 @@ export const App = () => {
           />
         </PianoWrapper>
       </PianoScroller>
+      {isViewScrollBar && (
+        <ScrollBar
+          scrollValue={scrollValue}
+          setScrollValue={setScrollValue}
+          maxScrollValue={maxScrollValue}
+        />
+      )}
       <ChordInfo
         isScaleDisplay={isScaleDisplay}
         pushingKeyNumbers={pushingKeyNumbers}
