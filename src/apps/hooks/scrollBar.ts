@@ -23,14 +23,14 @@ export const useScrollBar = () => {
     return (
       (scrollRef.current.firstChild as HTMLDivElement).offsetWidth > windowWidth
     );
-  }, [scrollRef, windowWidth]);
+  }, [scrollRef.current, windowWidth]);
   // スクロールできる最大値
   const maxScrollValue = useMemo(() => {
     if (!scrollRef.current) return 0;
     const scrollWidth = scrollRef.current.scrollWidth;
     const clientWidth = scrollRef.current.clientWidth;
     return scrollWidth - clientWidth;
-  }, [scrollRef, windowWidth]);
+  }, [scrollRef.current, windowWidth]);
   // スクロールバーの移動量管理
   const [scrollValue, innerSetScrollValue] = useState<number>(0);
   const setScrollValue = useCallback(
