@@ -63,7 +63,7 @@ export const Piano: React.FC<PianoProps> = ({
     (index: number) => {
       if (scaleOffset === undefined) return undefined;
       const degree = (12 + index - scaleOffset) % 12;
-      if (degree === 0) return "root";
+      if (degree === 0) return "tonic";
       if ([2, 4, 5, 7, 9, 11].includes(degree)) return "diatonic";
       return undefined;
     },
@@ -91,7 +91,7 @@ export const Piano: React.FC<PianoProps> = ({
               rulerType,
               isPushed(isSingle ? index : octaveOffset + index),
             );
-            const rulerLabel = rulerType === "root" ? "R" : undefined;
+            const rulerLabel = rulerType === "tonic" ? "T" : undefined;
             const pushKey = () =>
               updatePushingKeyNumbers(octaveOffset + index, true);
             const releaseKey = () =>

@@ -106,13 +106,13 @@ export const Ruler = styled.div`
   &.pushed {
     background-color: ${rulerColor.pushedNonDiatonic};
   }
-  &.root {
+  &.tonic {
     top: ${-rulerHeight}px;
     height: ${rulerHeight}px;
-    background-color: ${rulerColor.root};
+    background-color: ${rulerColor.tonic};
     text-align: center;
     &.pushed {
-      background-color: ${rulerColor.pushedRoot};
+      background-color: ${rulerColor.pushedTonic};
     }
   }
   &.diatonic {

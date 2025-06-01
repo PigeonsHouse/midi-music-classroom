@@ -20,8 +20,8 @@ export const scrollBarColor = {
 };
 
 export const rulerColor = {
-  root: "#8C8C8C",
-  pushedRoot: "#3CDDAA",
+  tonic: "#8C8C8C",
+  pushedTonic: "#3CDDAA",
   diatonic: "#B8B8B8",
   pushedDiatonic: "#7EF1CD",
   nonDiatonic: "#525252",
