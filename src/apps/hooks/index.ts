@@ -1,3 +1,4 @@
+export * from "./diatonicChord";
 export * from "./keyboard";
 export * from "./midi";
 export * from "./options";

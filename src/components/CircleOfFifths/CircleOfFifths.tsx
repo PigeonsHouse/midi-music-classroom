@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { ScaleType } from "../../definitions/keyLabel";
+import { CircleOfFifthsParts, ScaleType } from "../../definitions/keyLabel";
 import { SaveSpacingChordName } from "../SaveSpacingChordName";
 import {
   CircleRoot,
@@ -11,73 +11,6 @@ import {
   OddBackground,
   Title,
 } from "./styled";
-
-const CircleOfFifthsParts: {
-  majorLabel: string;
-  minorLabel: string;
-  majorScaleType: ScaleType;
-}[] = [
-  {
-    majorLabel: "C",
-    minorLabel: "Am",
-    majorScaleType: "C",
-  },
-  {
-    majorLabel: "G",
-    minorLabel: "Em",
-    majorScaleType: "G",
-  },
-  {
-    majorLabel: "D",
-    minorLabel: "Bm",
-    majorScaleType: "D",
-  },
-  {
-    majorLabel: "A",
-    minorLabel: "F♯m",
-    majorScaleType: "A",
-  },
-  {
-    majorLabel: "E",
-    minorLabel: "C♯m",
-    majorScaleType: "E",
-  },
-  {
-    majorLabel: "B",
-    minorLabel: "G♯m",
-    majorScaleType: "B",
-  },
-  {
-    majorLabel: "F♯",
-    minorLabel: "D♯m",
-    majorScaleType: "F♯",
-  },
-  {
-    majorLabel: "D♭",
-    minorLabel: "B♭m",
-    majorScaleType: "C♯",
-  },
-  {
-    majorLabel: "A♭",
-    minorLabel: "Fm",
-    majorScaleType: "G♯",
-  },
-  {
-    majorLabel: "E♭",
-    minorLabel: "Cm",
-    majorScaleType: "D♯",
-  },
-  {
-    majorLabel: "B♭",
-    minorLabel: "Gm",
-    majorScaleType: "A♯",
-  },
-  {
-    majorLabel: "F",
-    minorLabel: "Dm",
-    majorScaleType: "F",
-  },
-] as const;
 
 type CircleOfFifthsProps = {
   scale?: ScaleType;

@@ -1,5 +1,6 @@
 import { ChordInfo } from "../components/ChordInfo";
 import { CircleOfFifths } from "../components/CircleOfFifths";
+import { DiatonicChordButtons } from "../components/DiatonicChordButtons";
 import { HideInversion } from "../components/HideInversion";
 import { KeyLabelSelector } from "../components/KeyLabelSelector";
 import { MIDIDeviceSelector } from "../components/MIDIDeviceSelector";
@@ -10,6 +11,7 @@ import { SingleOctave } from "../components/SingleOctave";
 import { TransposeSlider } from "../components/TransposeSlider";
 import { VolumeSlider } from "../components/VolumeSlider";
 import {
+  useDiatonicChord,
   useKeyboard,
   useMidiKeyboard,
   useOptions,
@@ -75,6 +77,9 @@ export const App = () => {
 
   // PCのキーボード関連
   useKeyboard(updatePushingKeyNumbers);
+
+  // ダイアトニックコードボタン関連
+  const buttonDataList = useDiatonicChord(scale, updatePushingKeyNumbers);
 
   return (
     <Container>
@@ -150,6 +155,7 @@ export const App = () => {
         scale={isScaleDisplay ? scale : undefined}
         setScale={setScaleForce}
       />
+      <DiatonicChordButtons buttonDataList={buttonDataList} />
     </Container>
   );
 };

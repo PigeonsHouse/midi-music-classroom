@@ -32,6 +32,73 @@ export const keyLabel = {
 export type LabelType = keyof typeof keyLabel;
 export type ScaleType = (typeof keyLabel.american)[number];
 
+export const CircleOfFifthsParts: {
+  majorLabel: string;
+  minorLabel: string;
+  majorScaleType: ScaleType;
+}[] = [
+  {
+    majorLabel: "C",
+    minorLabel: "Am",
+    majorScaleType: "C",
+  },
+  {
+    majorLabel: "G",
+    minorLabel: "Em",
+    majorScaleType: "G",
+  },
+  {
+    majorLabel: "D",
+    minorLabel: "Bm",
+    majorScaleType: "D",
+  },
+  {
+    majorLabel: "A",
+    minorLabel: "F♯m",
+    majorScaleType: "A",
+  },
+  {
+    majorLabel: "E",
+    minorLabel: "C♯m",
+    majorScaleType: "E",
+  },
+  {
+    majorLabel: "B",
+    minorLabel: "G♯m",
+    majorScaleType: "B",
+  },
+  {
+    majorLabel: "F♯",
+    minorLabel: "D♯m",
+    majorScaleType: "F♯",
+  },
+  {
+    majorLabel: "D♭",
+    minorLabel: "B♭m",
+    majorScaleType: "C♯",
+  },
+  {
+    majorLabel: "A♭",
+    minorLabel: "Fm",
+    majorScaleType: "G♯",
+  },
+  {
+    majorLabel: "E♭",
+    minorLabel: "Cm",
+    majorScaleType: "D♯",
+  },
+  {
+    majorLabel: "B♭",
+    minorLabel: "Gm",
+    majorScaleType: "A♯",
+  },
+  {
+    majorLabel: "F",
+    minorLabel: "Dm",
+    majorScaleType: "F",
+  },
+] as const;
+
 export const chordType = {
   Major: "",
   Minor: "m",

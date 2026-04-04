@@ -11,7 +11,6 @@ export const useScale = () => {
   const [scaleRaw, setScale] = useLocalStorage<ScaleType>("scaleDisplay", "C");
   const setScaleForce = useCallback(
     (scale: ScaleType) => {
-      console.log(scale);
       setScale(scale);
       setIsScaleDisplay(true);
     },
