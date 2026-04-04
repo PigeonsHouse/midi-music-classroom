@@ -79,7 +79,10 @@ export const App = () => {
   useKeyboard(updatePushingKeyNumbers);
 
   // ダイアトニックコードボタン関連
-  const buttonDataList = useDiatonicChord(scale, updatePushingKeyNumbers);
+  const buttonDataList = useDiatonicChord(
+    isScaleDisplay ? scale : "C",
+    updatePushingKeyNumbers,
+  );
 
   return (
     <Container>
