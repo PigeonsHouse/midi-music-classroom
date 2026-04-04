@@ -31,3 +31,7 @@ export const ChordLabel = styled.div`
     color: ${chordColor.dominant};
   }
 `;
+
+export const LabelWrapper = styled.div`
+  display: flex;
+`;

@@ -1,6 +1,10 @@
 import styled from "@emotion/styled";
 import { appColor } from "../definitions/colors";
 
+export const Container = styled.div`
+  padding-bottom: 32px;
+`;
+
 export const Title = styled.h1`
   margin: 8px 0;
   text-align: center;
@@ -28,7 +32,10 @@ export const OptionContainer = styled.details`
 `;
 
 export const OptionTitle = styled.summary`
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   font-weight: bold;
   background-color: ${appColor.optionTitleBase};
   color: ${appColor.optionTitle};
@@ -38,6 +45,10 @@ export const OptionTitle = styled.summary`
     }
   }
   padding: 4px 0;
+`;
+
+export const OptionArrowContainer = styled.span`
+  font-size: 12px;
 `;
 
 export const OptionItemContainer = styled.div`

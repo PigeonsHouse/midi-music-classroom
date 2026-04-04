@@ -1,4 +1,5 @@
 import { ChordInfo } from "../components/ChordInfo";
+import { CircleOfFifths } from "../components/CircleOfFifths";
 import { HideInversion } from "../components/HideInversion";
 import { KeyLabelSelector } from "../components/KeyLabelSelector";
 import { MIDIDeviceSelector } from "../components/MIDIDeviceSelector";
@@ -18,6 +19,8 @@ import {
   useSound,
 } from "./hooks";
 import {
+  Container,
+  OptionArrowContainer,
   OptionContainer,
   OptionContainerScroller,
   OptionContainerWrapper,
@@ -46,6 +49,7 @@ export const App = () => {
     setIsScaleDisplay,
     scale,
     setScale,
+    setScaleForce,
     transposeScale,
     setTransposeScale,
   } = useScale();
@@ -73,11 +77,16 @@ export const App = () => {
   useKeyboard(updatePushingKeyNumbers);
 
   return (
-    <>
+    <Container>
       <Title>鳩屋敷のWebピアノ</Title>
       <OptionContainerWrapper>
         <OptionContainer open={isOpenOption}>
-          <OptionTitle onClick={toggleOption}>オプション</OptionTitle>
+          <OptionTitle onClick={toggleOption}>
+            オプション
+            <OptionArrowContainer>
+              {isOpenOption ? "▲" : "▼"}
+            </OptionArrowContainer>
+          </OptionTitle>
           <OptionContainerScroller>
             <OptionItemContainer>
               <VolumeSlider volume={volume} setVolume={setVolume} />
@@ -137,6 +146,10 @@ export const App = () => {
         isHideInversion={isHideInversion}
         scale={scale}
       />
-    </>
+      <CircleOfFifths
+        scale={isScaleDisplay ? scale : undefined}
+        setScale={setScaleForce}
+      />
+    </Container>
   );
 };

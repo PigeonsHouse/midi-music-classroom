@@ -35,3 +35,9 @@ export const chordColor = {
   subdominant: "#F1AB31",
   dominant: "#F15031",
 };
+
+export const circleOfFifthsColor = {
+  background: "#D6D6D6",
+  border: "#FFFFFF",
+  oddBackground: "#2C2C2C",
+};

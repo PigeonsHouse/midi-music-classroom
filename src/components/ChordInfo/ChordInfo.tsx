@@ -1,7 +1,8 @@
 import { useMemo } from "react";
 import { ScaleType, keyLabel } from "../../definitions/keyLabel";
 import { getChords, getDegree } from "../../utils/notes";
-import { ChordLabel, Container, InnerContainer } from "./styled";
+import { ChordLabel, Container, InnerContainer, LabelWrapper } from "./styled";
+import { SaveSpacingChordName } from "../SaveSpacingChordName";
 
 type ChordInfoProps = {
   isScaleDisplay: boolean;
@@ -36,10 +37,12 @@ export const ChordInfo: React.FC<ChordInfoProps> = ({
             const fractionLabel =
               rootKey !== undefined ? `/${keyLabel.american[rootKey]}` : "";
             return (
-              <div key={baseLabel}>
-                {baseLabel}
+              <LabelWrapper key={baseLabel}>
+                <SaveSpacingChordName fontSize={80}>
+                  {baseLabel}
+                </SaveSpacingChordName>
                 {fractionLabel}
-              </div>
+              </LabelWrapper>
             );
           })}
         </ChordLabel>
@@ -48,14 +51,16 @@ export const ChordInfo: React.FC<ChordInfoProps> = ({
         <InnerContainer>
           ディグリー名
           <ChordLabel>
-            {degrees.map(({ degreeLabel, type, chordFunction }) => {
-              return (
-                <div key={degreeLabel} className={chordFunction}>
+            {degrees.map(({ degreeLabel, type, chordFunction }) => (
+              <LabelWrapper key={degreeLabel} className={chordFunction}>
+                <SaveSpacingChordName fontSize={80}>
                   {degreeLabel}
+                </SaveSpacingChordName>
+                <SaveSpacingChordName fontSize={80}>
                   {type}
-                </div>
-              );
-            })}
+                </SaveSpacingChordName>
+              </LabelWrapper>
+            ))}
           </ChordLabel>
         </InnerContainer>
       )}

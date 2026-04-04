@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { keyLabel, ScaleType } from "../../definitions/keyLabel";
 import { useLocalStorage } from "../../utils/localStorage";
 
@@ -9,6 +9,14 @@ export const useScale = () => {
     false,
   );
   const [scaleRaw, setScale] = useLocalStorage<ScaleType>("scaleDisplay", "C");
+  const setScaleForce = useCallback(
+    (scale: ScaleType) => {
+      console.log(scale);
+      setScale(scale);
+      setIsScaleDisplay(true);
+    },
+    [setIsScaleDisplay, setScale],
+  );
   // トランスポーズ関連
   const [transposeScale, setTransposeScale] = useLocalStorage<number>(
     "transposeScale",
@@ -25,6 +33,7 @@ export const useScale = () => {
     setIsScaleDisplay,
     scale,
     setScale,
+    setScaleForce,
     transposeScale,
     setTransposeScale,
   };
