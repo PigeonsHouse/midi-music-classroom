@@ -8,19 +8,23 @@ import {
 
 export const useDiatonicChord = (
   scale: ScaleType,
+  transposeScale: number,
   updatePushingKeyNumbers: (newNoteNumber: number, isOn: boolean) => void,
 ): DiatonicChordButtonData[] => {
   const pushAndReleaseChord = useCallback(
     (rootNoteNumber: number, type: "major" | "minor") => {
-      const pushAndReleaseKey = (noteNumber: number) => {
-        updatePushingKeyNumbers(noteNumber, true);
-        setTimeout(() => updatePushingKeyNumbers(noteNumber, false), 100);
+      const pushAndReleaseAbsoluteKey = (noteNumber: number) => {
+        const transposeNoteNumber = noteNumber - transposeScale;
+        updatePushingKeyNumbers(transposeNoteNumber, true);
+        setTimeout(
+          () => updatePushingKeyNumbers(transposeNoteNumber, false),
+          100,
+        );
       };
 
-      pushAndReleaseKey(rootNoteNumber - 12);
-      pushAndReleaseKey(rootNoteNumber);
-      pushAndReleaseKey(rootNoteNumber + (type === "major" ? 4 : 3));
-      pushAndReleaseKey(rootNoteNumber + 7);
+      pushAndReleaseAbsoluteKey(rootNoteNumber);
+      pushAndReleaseAbsoluteKey(rootNoteNumber + (type === "major" ? 4 : 3));
+      pushAndReleaseAbsoluteKey(rootNoteNumber + 7);
     },
     [updatePushingKeyNumbers],
   );
@@ -32,7 +36,7 @@ export const useDiatonicChord = (
 
   const rootNoteNumber = useMemo(
     () =>
-      ((keyLabel.american.findIndex((label) => label === scale) + 6) % 12) + 54,
+      ((keyLabel.american.findIndex((label) => label === scale) + 6) % 12) + 42,
     [scale],
   );
 

@@ -81,6 +81,7 @@ export const App = () => {
   // ダイアトニックコードボタン関連
   const buttonDataList = useDiatonicChord(
     isScaleDisplay ? scale : "C",
+    transposeScale,
     updatePushingKeyNumbers,
   );
 
