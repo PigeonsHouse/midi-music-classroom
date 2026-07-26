@@ -68,7 +68,7 @@ export const useMidiKeyboard = (
       // 60がC4。12ずつで1オクターブ上下する。
       const noteNumber = ev.data[1];
 
-      const isOn = ev.data[0] / 16 === 9;
+      const isOn = (ev.data[0] / 16 === 9) && (ev.data[2] !== 0);
       updatePushingKeyNumbers(noteNumber, isOn);
     },
     [updatePushingKeyNumbers],
